@@ -25,6 +25,11 @@ Comedy::Comedy(const char &g, const int &s, const string &d,
                const string &t, const int &ry) : Video(g, s, d, t, ry)
 {
 }
+
+Comedy::~Comedy()
+{
+}
+
 Drama::Drama() : Video()
 {
 }
@@ -32,17 +37,25 @@ Drama::Drama(const char &g, const int &s, const string &d,
              const string &t, const int &ry) : Video(g, s, d, t, ry)
 {
 }
+
+Drama::~Drama()
+{
+}
 Classical::Classical() : Video()
 {
 }
 Classical::Classical(const char &g, const int &s, const string &d,
-                     const string &t, const int &ry, const string &maFN,
-                     const string &maLN, const int &rm)
+                     const string &t, const string &maFN,
+                     const string &maLN, const int &rm, const int &ry)
     : Video(g, s, d, t, ry)
 {
     majActFN = maFN;
     majActLN = maLN;
     releaseMonth = rm;
+}
+
+Classical::~Classical()
+{
 }
 
 void Video::modifyStock(int s)
@@ -107,6 +120,31 @@ string Video::getTitle() const
     return title;
 }
 
+string Classical::getMajActFN() const
+{
+    return majActFN;
+}
+void Classical::setMajActFN(string fn)
+{
+    majActFN = fn;
+}
+string Classical::getMajActLN() const
+{
+    return majActLN;
+}
+void Classical::setMajActLN(string ln)
+{
+    majActLN = ln;
+}
+int Classical::getReleaseMonth() const
+{
+    return releaseMonth;
+}
+void Classical::setReleaseMonth(int rm)
+{
+    releaseMonth = rm;
+}
+
 ostream &operator<<(ostream &output, const Video &v)
 {
     output << v.getTitle() << " " << v.getDirector() << " " << v.getReleaseYear() << " ";
@@ -115,6 +153,8 @@ ostream &operator<<(ostream &output, const Video &v)
 
 ostream &operator<<(ostream &output, const Classical &C)
 {
-    output << C.getTitle() << " " << C.getDirector() << " " << C.getReleaseYear() << " ";
+    output << C.getTitle() << " " << C.getDirector() << " "
+           << C.getMajActFN() << " " << C.getMajActLN() << " "
+           << C.getReleaseMonth() << " " << C.getReleaseYear() << " ";
     return output;
 }

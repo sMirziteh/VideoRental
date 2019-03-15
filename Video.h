@@ -60,14 +60,20 @@ public:
   friend ostream &operator<<(ostream &, const Classical &);
   Classical();
   Classical(const char &genre, const int &stock,
-            const string &director, const string &title, const int &releaseYear,
-            const string &majActFN, const string &majActLN, const int &releaseMonth);
+            const string &director, const string &title, const string &majActFN, const string &majActLN,
+            const int &releaseMonth, const int &releaseYear);
   ~Classical();
+  string getMajActFN() const;
+  void setMajActFN(string fn);
+  string getMajActLN() const;
+  void setMajActLN(string ln);
+  int getReleaseMonth() const;
+  void setReleaseMonth(int rm);
 
 protected:
   string majActFN;
   string majActLN;
-  string releaseMonth;
+  int releaseMonth;
 };
 
 #endif
