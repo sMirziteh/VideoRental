@@ -42,7 +42,6 @@ public:
   Comedy();
   Comedy(const char &genre, const int &stock,
          const string &director, const string &title, const int &releaseYear);
-  ~Comedy();
 };
 
 class Drama : public Video
@@ -51,7 +50,6 @@ public:
   Drama();
   Drama(const char &genre, const int &stock,
         const string &director, const string &title, const int &releaseYear);
-  ~Drama();
 };
 
 class Classical : public Video
@@ -62,7 +60,6 @@ public:
   Classical(const char &genre, const int &stock,
             const string &director, const string &title, const string &majActFN, const string &majActLN,
             const int &releaseMonth, const int &releaseYear);
-  ~Classical();
   string getMajActFN() const;
   void setMajActFN(string fn);
   string getMajActLN() const;

@@ -26,10 +26,6 @@ Comedy::Comedy(const char &g, const int &s, const string &d,
 {
 }
 
-Comedy::~Comedy()
-{
-}
-
 Drama::Drama() : Video()
 {
 }
@@ -38,9 +34,6 @@ Drama::Drama(const char &g, const int &s, const string &d,
 {
 }
 
-Drama::~Drama()
-{
-}
 Classical::Classical() : Video()
 {
 }
@@ -52,10 +45,6 @@ Classical::Classical(const char &g, const int &s, const string &d,
     majActFN = maFN;
     majActLN = maLN;
     releaseMonth = rm;
-}
-
-Classical::~Classical()
-{
 }
 
 void Video::modifyStock(int s)
