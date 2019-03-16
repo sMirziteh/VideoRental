@@ -9,7 +9,6 @@ using namespace std;
 class Customer
 {
   friend ostream &operator<<(ostream &, const Customer &);
-  // friend Trans;
 
 private:
   string firstName;
@@ -21,12 +20,9 @@ public:
   ~Customer();
 
   int getID() const;
-  // void showTransactions();
-  // void addTransaction(Trans &t);
 
 protected:
   int customerID;
-  // vector<Trans> transactions;
 };
 
 #endif
