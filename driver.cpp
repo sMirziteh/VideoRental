@@ -1,4 +1,5 @@
 #include "Video.h"
+#include "Customer.h"
 #include <iostream>
 using namespace std;
 
@@ -10,5 +11,9 @@ int main()
     cout << c << endl;
     cout << d << endl;
     cout << cd << endl;
+
+    Customer A(1111, "Mickey", "Mouse"), B(1000, "Minnie", "Mouse");
+    cout << A << endl;
+    cout << B << endl;
     return 0;
 }
