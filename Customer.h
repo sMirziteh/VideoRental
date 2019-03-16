@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-// #include "Trans.h"
+#include "Video.h"
 using namespace std;
 
 class Customer
@@ -13,16 +13,24 @@ class Customer
 private:
   string firstName;
   string lastName;
+  struct Trans
+  {
+    char txType;
+    char mediaType;
+    Video V;
+  };
 
 public:
   Customer();
   Customer(const int &customerID, const string &firstName, const string lastName);
   ~Customer();
-
+  void addTransaction(const char &txType, const char &mediaType, const Video &);
+  void showTransactions();
   int getID() const;
 
 protected:
   int customerID;
+  vector<Trans> transactions;
 };
 
 #endif

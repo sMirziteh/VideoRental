@@ -17,10 +17,10 @@ int main()
     cout << A << endl;
     cout << B << endl;
 
-    Trans T('B', 'D', B, cd);
-    cout << T << endl;
+    // Trans T('B', 'D', B, cd);
+    // cout << T << endl;
 
-    // B.addTransaction(T);
-    // B.showTransactions();
+    B.addTransaction('B', 'D', cd);
+    B.showTransactions();
     return 0;
 }
