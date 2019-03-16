@@ -10,8 +10,6 @@ using namespace std;
 class Trans
 {
   friend ostream &operator<<(ostream &, const Trans &);
-  friend Customer;
-  friend Video;
 
 protected:
   char txType;
