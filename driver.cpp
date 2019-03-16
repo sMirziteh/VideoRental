@@ -1,5 +1,6 @@
 #include "Video.h"
 #include "Customer.h"
+#include "Trans.h"
 #include <iostream>
 using namespace std;
 
@@ -15,5 +16,11 @@ int main()
     Customer A(1111, "Mickey", "Mouse"), B(1000, "Minnie", "Mouse");
     cout << A << endl;
     cout << B << endl;
+
+    Trans T('B', 'D', B, cd);
+    cout << T << endl;
+
+    // B.addTransaction(T);
+    // B.showTransactions();
     return 0;
 }
