@@ -3,30 +3,34 @@
 #include <iostream>
 #include <string>
 #include <vector>
-// #include "Trans.h"
+#include "Video.h"
 using namespace std;
 
 class Customer
 {
   friend ostream &operator<<(ostream &, const Customer &);
-  // friend Trans;
 
 private:
   string firstName;
   string lastName;
+  struct Trans
+  {
+    char txType;
+    char mediaType;
+    Video V;
+  };
 
 public:
   Customer();
   Customer(const int &customerID, const string &firstName, const string lastName);
   ~Customer();
-
+  void addTransaction(const char &txType, const char &mediaType, const Video &);
+  void showTransactions();
   int getID() const;
-  // void showTransactions();
-  // void addTransaction(Trans &t);
 
 protected:
   int customerID;
-  // vector<Trans> transactions;
+  vector<Trans> transactions;
 };
 
 #endif
