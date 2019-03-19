@@ -4,29 +4,29 @@
 // Date of Last Modification:
 // --------------------------------------------------------------------------------------------------------------------
 // Assignment 4's Hash Table class
-// -------------------------------------------------------------------------------------------------------------------- 
+// --------------------------------------------------------------------------------------------------------------------
 // Notes on specifications, special algorithms, and assumptions.
-// Assumptions: 
+// Assumptions:
 // --------------------------------------------------------------------------------------------------------------------
 
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
-#include "customer.h"
+#include "Customer.h"
 #include <vector>
 
-class HashTable {
+class HashTable
+{
 public:
 	HashTable();
 	~HashTable();
-	void add(Customer*);
-	Customer* get(int);
+	void add(Customer *);
+	Customer *get(int);
 	void remove(int);
 	int hash(int);
 	bool isFull();
 
 private:
-	vector<Customer*> customerList;
+	vector<Customer *> customerList;
 };
-
 
 #endif // HASHTABLE_H
