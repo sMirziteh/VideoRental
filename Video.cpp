@@ -1,9 +1,26 @@
+//---------------------------------Video.cpp---------------------------------
+// Shelby Mirziteh CSS_343 C
+// Group: Jordan Lawson, Shelby Mirziteh, Kier Fisher
+// 03/14/2019
+// 03/20/2019
+// -------------------------------------------------------------------------
+// implements Video class for video rental program.
+// -------------------------------------------------------------------------
+
 #include "Video.h"
 
+// ------------------------------default constr------------------------
+// Constructor
+// Description: instantiates new empty Video object
+// -------------------------------------------------------------------
 Video::Video()
 {
 }
 
+// ------------------------------constructor------------------------
+// Constructor
+// Description: instantiates new Video object with given values
+// -------------------------------------------------------------------
 Video::Video(const char &g, const int &s, const string &d,
              const string &t, const int &ry)
 {
@@ -14,29 +31,59 @@ Video::Video(const char &g, const int &s, const string &d,
     releaseYear = ry;
 }
 
+// ------------------------------destructor------------------------
+// destructor for video class and children
+// -------------------------------------------------------------------
 Video::~Video()
 {
 }
 
+// ------------------------------Comedy constr------------------------
+// Constructor
+// Description: instantiates new empty Comedy video
+// -------------------------------------------------------------------
 Comedy::Comedy() : Video()
 {
 }
+
+// ------------------------------Comedy constr------------------------
+// Constructor
+// Description: instantiates new Comedy video w/ values
+// -------------------------------------------------------------------
 Comedy::Comedy(const char &g, const int &s, const string &d,
                const string &t, const int &ry) : Video(g, s, d, t, ry)
 {
 }
 
+// ------------------------------Drama constr------------------------
+// Constructor
+// Description: instantiates new empty Drama video
+// -------------------------------------------------------------------
 Drama::Drama() : Video()
 {
 }
+
+// ------------------------------Drama constr------------------------
+// Constructor
+// Description: instantiates new Drama video w/ values
+// -------------------------------------------------------------------
 Drama::Drama(const char &g, const int &s, const string &d,
              const string &t, const int &ry) : Video(g, s, d, t, ry)
 {
 }
 
+// ------------------------------Classical constr------------------------
+// Constructor
+// Description: instantiates new empty Classical video
+// -------------------------------------------------------------------
 Classical::Classical() : Video()
 {
 }
+
+// ------------------------------Classical constr------------------------
+// Constructor
+// Description: instantiates new Classical video w/ values
+// -------------------------------------------------------------------
 Classical::Classical(const char &g, const int &s, const string &d,
                      const string &t, const string &maFN,
                      const string &maLN, const int &rm, const int &ry)
@@ -47,31 +94,29 @@ Classical::Classical(const char &g, const int &s, const string &d,
     releaseMonth = rm;
 }
 
+// ------------------------------modifyStock------------------------
+// increases or decreases video stock by the amount provided
+// -------------------------------------------------------------------
 void Video::modifyStock(int s)
 {
+    //if negative, decrease stock
     if (s < 0)
     {
         stock -= s;
     }
-    else
+    else //increase
     {
         stock += s;
     }
 }
 
-void Video::setStock(int s)
-{
-    stock = s;
-}
-
+// ------------------------------*Getters*------------------------
+// accessors for Video class attributes
+// pretty straight forward
+// -------------------------------------------------------------------
 int Video::getStock() const
 {
     return stock;
-}
-
-void Video::setGenre(char g)
-{
-    genre = g;
 }
 
 char Video::getGenre() const
@@ -79,29 +124,14 @@ char Video::getGenre() const
     return genre;
 }
 
-void Video::setReleaseYear(int ry)
-{
-    releaseYear = ry;
-}
-
 int Video::getReleaseYear() const
 {
     return releaseYear;
 }
 
-void Video::setDirector(string d)
-{
-    director = d;
-}
-
 string Video::getDirector() const
 {
     return director;
-}
-
-void Video::setTitle(string t)
-{
-    title = t;
 }
 
 string Video::getTitle() const
@@ -113,27 +143,66 @@ string Classical::getMajActFN() const
 {
     return majActFN;
 }
-void Classical::setMajActFN(string fn)
-{
-    majActFN = fn;
-}
+
 string Classical::getMajActLN() const
 {
     return majActLN;
 }
-void Classical::setMajActLN(string ln)
-{
-    majActLN = ln;
-}
+
 int Classical::getReleaseMonth() const
 {
     return releaseMonth;
 }
+
+// ------------------------------*Setters*------------------------
+// mutators for Video class attributes
+// pretty straight forward
+// -------------------------------------------------------------------
+
+void Video::setStock(int s)
+{
+    stock = s;
+}
+
+void Video::setGenre(char g)
+{
+    genre = g;
+}
+
+void Video::setReleaseYear(int ry)
+{
+    releaseYear = ry;
+}
+
+void Video::setDirector(string d)
+{
+    director = d;
+}
+
+void Video::setTitle(string t)
+{
+    title = t;
+}
+
+void Classical::setMajActFN(string fn)
+{
+    majActFN = fn;
+}
+
+void Classical::setMajActLN(string ln)
+{
+    majActLN = ln;
+}
+
 void Classical::setReleaseMonth(int rm)
 {
     releaseMonth = rm;
 }
 
+// ------------------------------Overloaded << ------------------------
+// overloaded output operators for the parent Video class and a separate
+// for classical movies
+// -------------------------------------------------------------------
 ostream &operator<<(ostream &output, const Video &v)
 {
     output << v.getTitle() << " " << v.getDirector() << " " << v.getReleaseYear() << " ";
