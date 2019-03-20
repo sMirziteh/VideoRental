@@ -1,7 +1,25 @@
+//---------------------------------Customer.cpp---------------------------------
+// Shelby Mirziteh CSS_343 C
+// Group: Jordan Lawson, Shelby Mirziteh, Kier Fisher
+// 03/14/2019
+// 03/20/2019
+// -------------------------------------------------------------------------
+// Implements Customer class for video rental program.
+// tracks transactions for each customer
+// -------------------------------------------------------------------------
+
 #include "Customer.h"
 
+// ------------------------------default constr------------------------
+// Constructor
+// Description: instantiates new empty Customer object
+// -------------------------------------------------------------------
 Customer::Customer() {}
 
+// ------------------------------ constrstructor------------------------
+// Constructor
+// Description: instantiates new customer with given values
+// -------------------------------------------------------------------
 Customer::Customer(const int &id, const string &fn, const string ln)
 {
     customerID = id;
@@ -9,15 +27,25 @@ Customer::Customer(const int &id, const string &fn, const string ln)
     lastName = ln;
 }
 
+// ------------------------------destructor------------------------
+// Destructor for Customer
+// -------------------------------------------------------------------
 Customer::~Customer()
 {
 }
 
+// ------------------------------getID---------------------------------
+// retrives customer ID
+// -------------------------------------------------------------------
 int Customer::getID() const
 {
     return customerID;
 }
 
+// ------------------------------addTransaction------------------------
+// adds transaction struct to transaction data structure with
+// given attributes
+// -------------------------------------------------------------------
 void Customer::addTransaction(const char &ttype, const char &mtype,
                               const Video &vid)
 {
@@ -28,6 +56,9 @@ void Customer::addTransaction(const char &ttype, const char &mtype,
     transactions.push_back(tx);
 }
 
+// ------------------------------showTransactions------------------------
+// shows all transactions in Trans data structure
+// -------------------------------------------------------------------
 void Customer::showTransactions()
 {
     for (int i = transactions.size() - 1; i >= 0; i--)
@@ -36,6 +67,9 @@ void Customer::showTransactions()
     }
 }
 
+// ----------------------------overloaded << ------------------------
+// overloaded output for Customer object
+// -------------------------------------------------------------------
 ostream &
 operator<<(ostream &output, const Customer &C)
 {
