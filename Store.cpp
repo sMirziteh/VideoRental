@@ -5,12 +5,22 @@
 
 using namespace std;
 
-Store::Store()
-{
+Store::Store() {
 }
 
-Store::~Store()
-{
+Store::~Store() {
+	for (unsigned i = 0; i < dramaList.size(); i++) {
+		delete dramaList[i];
+		dramaList[i] = nullptr;
+	}
+	for (unsigned i = 0; i < classicList.size(); i++) {
+		delete classicList[i];
+		classicList[i] = nullptr;
+	}
+	for (unsigned i = 0; i < funnyList.size(); i++) {
+		delete funnyList[i];
+		funnyList[i] = nullptr;
+	}
 }
 
 void Store::initializeInventory(ifstream& invFile)
@@ -74,25 +84,21 @@ void Store::initializeInventory(ifstream& invFile)
 		{
 			//two Video pointers to avoid compiler errors for initialization
 			//of currentVideo object
-			Video *vid;
 			if (genre == 'F')
 			{
-				Video *currentVideo = new Comedy(genre, stock, director, title, year);
-				vid = currentVideo;
-				funnyList.push_back(vid);
+				Comedy *currentVideo = new Comedy(genre, stock, director, title, year);
+				funnyList.push_back(currentVideo);
 			}
 			else if (genre == 'D')
 			{
-				Video *currentVideo = new Drama(genre, stock, director, title, year);
-				vid = currentVideo;
-				dramaList.push_back(vid);
+				Drama *currentVideo = new Drama(genre, stock, director, title, year);
+				dramaList.push_back(currentVideo);
 			}
 			else
 			{
-				Video *currentVideo = new Classical(genre, stock, director, title,
+				Classical *currentVideo = new Classical(genre, stock, director, title,
 					first, last, month, year);
-				vid = currentVideo;
-				classicList.push_back(vid);
+				classicList.push_back(currentVideo);
 			}
 
 		}
@@ -131,7 +137,6 @@ void Store::processCommands(ifstream& commFile)
 	//read each line from the file
 	while (getline(commFile, line))
 	{
-		isAdded = false;
 		stringstream stream(line);
 
 		// Get command character
@@ -157,20 +162,23 @@ void Store::processCommands(ifstream& commFile)
 
 			else if (genre == 'F' || genre == 'D' || genre == 'C')
 			{
+				Video *temp;
 
 				// If classical movie format is month year first last
 				if (genre == 'C')
 				{
+					
 					stream >> month;
 					stream >> year;
 					stream >> first;
 					stream >> last;
-					Classical temp;
-					temp.setGenre('C');
-					temp.setMajActFN(first);
-					temp.setMajActLN(last);
-					temp.setReleaseMonth(month);
-					temp.setReleaseYear(year);
+					Classical *cTemp = new Classical();
+					cTemp->setGenre('C');
+					cTemp->setMajActFN(first);
+					cTemp->setMajActLN(last);
+					cTemp->setReleaseMonth(month);
+					cTemp->setReleaseYear(year);
+					temp = cTemp;
 				}
 
 				// If drama movie format is director, movie,
@@ -184,10 +192,11 @@ void Store::processCommands(ifstream& commFile)
 					getline(stream, title, ',');
 					//eleminate leading whitespace
 					title = title.substr(1, title.length());
-					Drama temp;
-					temp.setGenre('D');
-					temp.setDirector(director);
-					temp.setTitle(title);
+					Drama *dTemp = new Drama();
+					dTemp->setGenre('D');
+					dTemp->setDirector(director);
+					dTemp->setTitle(title);
+					temp = dTemp;
 				}
 				// If funny movie format is Title, year
 				else if (genre == 'F') {
@@ -196,14 +205,16 @@ void Store::processCommands(ifstream& commFile)
 					//eleminate leading whitespace
 					title = title.substr(1, title.length());
 					stream >> year;
-					Comedy temp;
-					temp.setReleaseYear(year);
-					temp.setTitle(title);
+					Comedy *fTemp = new Comedy();
+					fTemp->setReleaseYear(year);
+					fTemp->setTitle(title);
+					temp = fTemp;
 				}
 
 				// If video is found, update the stock of the video
 				if (containsVideo(temp)) {
 					if (command == 'B') {
+
 						updateStock(temp, -1);
 					}
 					else if (command == 'R') {
@@ -227,13 +238,13 @@ void Store::processCommands(ifstream& commFile)
 		// If command is inventory
 		if (command == 'I') {
 			// Output comedies, dramas, and classics
-			for (int i = 0; i < (int)funnyList.size(); i++) {
+			for (unsigned i = 0; i < funnyList.size(); i++) {
 				cout << funnyList[i] << endl;
 			}
-			for (int i = 0; i < (int)dramaList.size(); i++) {
+			for (unsigned i = 0; i < dramaList.size(); i++) {
 				cout << dramaList[i] << endl;
 			}
-			for (int i = 0; i < (int)classicList.size(); i++) {
+			for (unsigned i = 0; i < classicList.size(); i++) {
 				cout << classicList[i] << endl;
 			}
 		}
@@ -307,16 +318,16 @@ void Store::sort() {
 	// Using Bubble Sort
 
 	// Classics sorted by release date then major actor
-	int i, j;
+	unsigned i, j;
 	bool swapped;
 
 	// Iterate through the vector until sorted
-	for (i = 0; i < (int) classicList.size() - 1; i++)
+	for (i = 0; i < classicList.size() - 1; i++)
 	{
 		swapped = false;
 
 		// Iterate through vector to do the comparisons
-		for (j = 0; j < (int)classicList.size() - i - 1; j++)
+		for (j = 0; j < classicList.size() - i - 1; j++)
 		{
 			if (classicList[i] > classicList[j + 1])
 			{
@@ -330,10 +341,10 @@ void Store::sort() {
 			break;
 	}
 	// Drama sorted by director then title
-	for (i = 0; i < (int)classicList.size() - 1; i++)
+	for (i = 0; i < classicList.size() - 1; i++)
 	{
 		swapped = false;
-		for (j = 0; j < (int)classicList.size() - i - 1; j++)
+		for (j = 0; j < classicList.size() - i - 1; j++)
 		{
 			if (classicList[i] > classicList[j + 1])
 			{
@@ -347,10 +358,10 @@ void Store::sort() {
 			break;
 	}
 	// Funnies sorted by title then year
-	for (i = 0; i < (int)classicList.size() - 1; i++)
+	for (i = 0; i < classicList.size() - 1; i++)
 	{
 		swapped = false;
-		for (j = 0; j < (int)classicList.size() - i - 1; j++)
+		for (j = 0; j < classicList.size() - i - 1; j++)
 		{
 			if (classicList[i] > classicList[j + 1])
 			{
