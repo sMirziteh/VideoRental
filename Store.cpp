@@ -24,7 +24,6 @@ void Store::initializeInventory(ifstream& invFile)
 	//read each line from the file
 	while (getline(invFile, line))
 	{
-		isAdded = false;
 		stringstream stream(line);
 
 		char garbageComma;	//for eleminating extra commas
@@ -51,10 +50,8 @@ void Store::initializeInventory(ifstream& invFile)
 			if (genre == 'C')
 			{
 				if (updateStock(title, stock))
-				{
-					isAdded = true;
 					continue;
-				}
+
 				stream >> first;
 				stream >> last;
 				stream >> month;
@@ -69,33 +66,31 @@ void Store::initializeInventory(ifstream& invFile)
 			cout << "Invalid Genre" << endl;
 			continue;	//continue to the next line of input
 		}
-
-		if (!isAdded)
+		
+		//two Video pointers to avoid compiler errors for initialization
+		//of currentVideo object
+		Video *vid;
+		if (genre == 'F')
 		{
-			//two Video pointers to avoid compiler errors for initialization
-			//of currentVideo object
-			Video *vid;
-			if (genre == 'F')
-			{
-				Video *currentVideo = new Comedy(genre, stock, director, title, year);
-				vid = currentVideo;
-				funnyList.push_back(vid);
-			}
-			else if (genre == 'D')
-			{
-				Video *currentVideo = new Drama(genre, stock, director, title, year);
-				vid = currentVideo;
-				dramaList.push_back(vid);
-			}
-			else
-			{
-				Video *currentVideo = new Classical(genre, stock, director, title,
-					first, last, month, year);
-				vid = currentVideo;
-				classicList.push_back(vid);
-			}
-
+			Video *currentVideo = new Comedy(genre, stock, director, title, year);
+			vid = currentVideo;
+			funnyList.push_back(vid);
 		}
+		else if (genre == 'D')
+		{
+			Video *currentVideo = new Drama(genre, stock, director, title, year);
+			vid = currentVideo;
+			dramaList.push_back(vid);
+		}
+		else
+		{
+			Video *currentVideo = new Classical(genre, stock, director, title,
+				first, last, month, year);
+			vid = currentVideo;
+			classicList.push_back(vid);
+		}
+
+		
 	}
 }
 
@@ -117,10 +112,7 @@ void Store::initializeCustomers(ifstream& custFile)
 
 void Store::processCommands(ifstream& commFile)
 {
-	bool isAdded = false;
-	char command;
-	char genre;
-	char videoType;
+	char command, genre = '-', videoType;
 	int ID, month, year;
 	string director, title, first, last;
 
@@ -128,7 +120,6 @@ void Store::processCommands(ifstream& commFile)
 	//read each line from the file
 	while (getline(commFile, line))
 	{
-		isAdded = false;
 		stringstream stream(line);
 
 		// Get command character
@@ -143,18 +134,15 @@ void Store::processCommands(ifstream& commFile)
 				// Skip the rest of this iteration and go to next command.
 				continue;
 			}
-			else if (command != 'H') {
-
-
+			if (command != 'H') {
 				stream >> videoType;
 				if (videoType != 'D') {
 					cout << "Invalid Video Type" << endl;
 					continue;
 				}
-				else if (genre == 'F' || genre == 'D' || genre == 'C')
+				stream >> genre;
+				if (genre == 'F' || genre == 'D' || genre == 'C')
 				{
-
-
 					// If classical movie format is month year first last
 					if (genre == 'C')
 					{
@@ -163,7 +151,6 @@ void Store::processCommands(ifstream& commFile)
 						stream >> first;
 						stream >> last;
 						Classical temp();
-
 					}
 					//split string on ',' character
 					getline(stream, director, ',');
@@ -193,45 +180,40 @@ void Store::processCommands(ifstream& commFile)
 			cout << "Invalid Command" << endl;
 			continue;	//continue to the next line of input
 		}
-
-		if (!isAdded)
-		{
-
-		}
 	}
 }
 
 bool Store::updateStock(string curTitle, int curStock)
 {
-	
-	bool found = false;
-	/*
-	for (int i = 0; i < (int)videoList.size(); i++)
+	for (int i = 0; i < (int)classicList.size(); i++)
 	{
-		Video *temp = videoList[i];
-		if (temp->getGenre == 'C' && temp->getTitle == curTitle)
+		Video *temp = classicList[i];
+		if (temp->getTitle == curTitle)
 		{
 			int stock = temp->getStock + curStock;
 			temp->setStock(stock);
 			return true;
 		}
 	}
-	*/
-	return found;
+	return false;
 }
 
 bool Store::containsVideo(Video *other)
 {
 	bool found = false;
+
+	if (other->getTitle != "-")
+	{
+
+	}
+
 	/*
 	for (int i = 0; i < (int)videoList.size(); i++)
 	{
 		Video *temp = videoList[i];
 		char genre = temp->getGenre;
-
 		if (genre == other->getGenre)
 		{
-
 			if (temp->getDirector == other->getDirector &&
 				temp->getTitle == other->getTitle &&
 				temp->getReleaseYear == other->getReleaseYear)
