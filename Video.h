@@ -63,6 +63,7 @@ public:
   Comedy();
   Comedy(const char &genre, const int &stock,
          const string &director, const string &title, const int &releaseYear);
+  bool operator>(const Comedy &) const;
 };
 
 //Child Drama class
@@ -74,6 +75,7 @@ public:
   Drama();
   Drama(const char &genre, const int &stock,
         const string &director, const string &title, const int &releaseYear);
+  bool operator>(const Drama &) const;
 };
 
 //Child Classical class
@@ -100,6 +102,7 @@ public:
   void setMajActFN(string fn);
   void setMajActLN(string ln);
   void setReleaseMonth(int rm);
+  bool operator>(const Classical &) const;
 
 protected:
   //classical attributes

@@ -55,10 +55,26 @@ Comedy::Comedy(const char &g, const int &s, const string &d,
 {
 }
 
+<<<<<<< HEAD
 // ------------------------------Drama constr------------------------
 // Constructor
 // Description: instantiates new empty Drama video
 // -------------------------------------------------------------------
+=======
+bool Comedy::operator>(const Comedy& rhs) const {
+	// Funnies sorted by title then year
+	if (getTitle() > rhs.getTitle()) {
+		return true;
+	}
+	else if (getTitle() == rhs.getTitle()) {
+		if (getReleaseYear() > rhs.getReleaseYear()) {
+			return true;
+		}
+	}
+	return false;
+}
+
+>>>>>>> Jordan
 Drama::Drama() : Video()
 {
 }
@@ -72,10 +88,26 @@ Drama::Drama(const char &g, const int &s, const string &d,
 {
 }
 
+<<<<<<< HEAD
 // ------------------------------Classical constr------------------------
 // Constructor
 // Description: instantiates new empty Classical video
 // -------------------------------------------------------------------
+=======
+bool Drama::operator>(const Drama& rhs) const {
+	// Drama sorted by director then title
+	if (getDirector() > rhs.getDirector()) {
+		return true;
+	}
+	else if (getDirector() == rhs.getDirector()) {
+		if (getTitle() > rhs.getTitle()) {
+			return true;
+		}
+	}
+	return false;
+}
+
+>>>>>>> Jordan
 Classical::Classical() : Video()
 {
 }
@@ -94,9 +126,31 @@ Classical::Classical(const char &g, const int &s, const string &d,
     releaseMonth = rm;
 }
 
+<<<<<<< HEAD
 // ------------------------------modifyStock------------------------
 // increases or decreases video stock by the amount provided
 // -------------------------------------------------------------------
+=======
+bool Classical::operator>(const Classical& rhs) const {
+	// Classics sorted by release date then major actor
+	if (getReleaseYear() > rhs.getReleaseYear()) {
+		return true;
+	}
+	else if (getReleaseYear() == rhs.getReleaseYear()) {
+		if (getReleaseMonth() > rhs.getReleaseMonth()) {
+			return true;
+		}
+		if (getReleaseMonth() == rhs.getReleaseMonth()) {
+			if ((getMajActFN() + getMajActLN()) > (rhs.getMajActFN + rhs.getMajActLN)) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+>>>>>>> Jordan
 void Video::modifyStock(int s)
 {
     //if negative, decrease stock

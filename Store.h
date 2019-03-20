@@ -19,9 +19,10 @@ public:
 	void processCommands(ifstream&);
 
 private:
-	vector<Video*> dramaList;
-	vector<Video*> classicList;
-	vector<Video*> funnyList;
+	void sort();
+	vector<Drama*> dramaList;
+	vector<Classical*> classicList;
+	vector<Comedy*> funnyList;
 	HashTable customerList;
 
 	bool containsVideo(Video*);
