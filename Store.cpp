@@ -97,6 +97,9 @@ void Store::initializeInventory(ifstream& invFile)
 
 		}
 	}
+
+	// Sort all movie vectors
+	sort();
 }
 
 void Store::initializeCustomers(ifstream& custFile)
@@ -134,7 +137,8 @@ void Store::processCommands(ifstream& commFile)
 		// Get command character
 		stream >> command;
 
-		if (command == 'B' || command == 'R' || command == 'H')
+		// If command is borrow or return
+		if (command == 'B' || command == 'R')
 		{
 			stream >> ID;
 			// If we get a nullptr, the customer doesn't exist
@@ -143,48 +147,108 @@ void Store::processCommands(ifstream& commFile)
 				// Skip the rest of this iteration and go to next command.
 				continue;
 			}
-			else if (command != 'H') {
 
+			stream >> videoType;
+			// If we get any video type other than D then incorrect input
+			if (videoType != 'D') {
+				cout << "Invalid Video Type!" << endl;
+				continue;
+			}
 
-				stream >> videoType;
-				if (videoType != 'D') {
-					cout << "Invalid Video Type" << endl;
-					continue;
-				}
-				else if (genre == 'F' || genre == 'D' || genre == 'C')
+			else if (genre == 'F' || genre == 'D' || genre == 'C')
+			{
+
+				// If classical movie format is month year first last
+				if (genre == 'C')
 				{
+					stream >> month;
+					stream >> year;
+					stream >> first;
+					stream >> last;
+					Classical temp;
+					temp.setGenre('C');
+					temp.setMajActFN(first);
+					temp.setMajActLN(last);
+					temp.setReleaseMonth(month);
+					temp.setReleaseYear(year);
+				}
 
-
-					// If classical movie format is month year first last
-					if (genre == 'C')
-					{
-						stream >> month;
-						stream >> year;
-						stream >> first;
-						stream >> last;
-						Classical temp();
-
-					}
+				// If drama movie format is director, movie,
+				else if (genre == 'D')
+				{
 					//split string on ',' character
 					getline(stream, director, ',');
 					//eleminate leading whitespace
 					director = director.substr(1, director.length());
-
 					//split string on ',' character
 					getline(stream, title, ',');
 					//eleminate leading whitespace
 					title = title.substr(1, title.length());
-					//get the year from the stream
+					Drama temp;
+					temp.setGenre('D');
+					temp.setDirector(director);
+					temp.setTitle(title);
+				}
+				// If funny movie format is Title, year
+				else if (genre == 'F') {
+					//split string on ',' character
+					getline(stream, title, ',');
+					//eleminate leading whitespace
+					title = title.substr(1, title.length());
 					stream >> year;
+					Comedy temp;
+					temp.setReleaseYear(year);
+					temp.setTitle(title);
 				}
 
-				//Something other than F, D, or C was entered as the genre
-				else
-				{
-					cout << "Invalid Genre" << endl;
-					continue;	//continue to the next line of input
+				// If video is found, update the stock of the video
+				if (containsVideo(temp)) {
+					if (command == 'B') {
+						updateStock(temp, -1);
+					}
+					else if (command == 'R') {
+						updateStock(temp, 1);
+					}
+				}
+				else {
+					cout << "Movie does not exist!" << endl;
 				}
 			}
+
+			//Something other than F, D, or C was entered as the genre
+			else
+			{
+				cout << "Invalid Genre" << endl;
+				continue;	//continue to the next line of input
+			}
+
+		}
+
+		// If command is inventory
+		if (command == 'I') {
+			// Output comedies, dramas, and classics
+			for (int i = 0; i < (int)funnyList.size(); i++) {
+				cout << funnyList[i] << endl;
+			}
+			for (int i = 0; i < (int)dramaList.size(); i++) {
+				cout << dramaList[i] << endl;
+			}
+			for (int i = 0; i < (int)classicList.size(); i++) {
+				cout << classicList[i] << endl;
+			}
+		}
+
+		// If command is history
+		if (command == 'H') {
+			stream >> ID;
+			Customer *temp = customerList.get(ID);
+			// If we get a nullptr, the customer doesn't exist
+			if (temp == nullptr) {
+				cout << "Customer does not exist!" << endl;
+				// Skip the rest of this iteration and go to next command.
+				continue;
+			}
+			temp->showTransactions();
 		}
 
 		//Something other than B,R,H,I
@@ -194,10 +258,7 @@ void Store::processCommands(ifstream& commFile)
 			continue;	//continue to the next line of input
 		}
 
-		if (!isAdded)
-		{
 
-		}
 	}
 }
 
@@ -240,4 +301,66 @@ bool Store::containsVideo(Video *other)
 	}
 	*/
 	return found;
+}
+
+void Store::sort() {
+	// Using Bubble Sort
+
+	// Classics sorted by release date then major actor
+	int i, j;
+	bool swapped;
+
+	// Iterate through the vector until sorted
+	for (i = 0; i < (int) classicList.size() - 1; i++)
+	{
+		swapped = false;
+
+		// Iterate through vector to do the comparisons
+		for (j = 0; j < (int)classicList.size() - i - 1; j++)
+		{
+			if (classicList[i] > classicList[j + 1])
+			{
+				swap(classicList[j], classicList[j + 1]);
+				swapped = true;
+			}
+		}
+
+		// If no swap occurs during inner loop we know vector is sorted.
+		if (swapped == false)
+			break;
+	}
+	// Drama sorted by director then title
+	for (i = 0; i < (int)classicList.size() - 1; i++)
+	{
+		swapped = false;
+		for (j = 0; j < (int)classicList.size() - i - 1; j++)
+		{
+			if (classicList[i] > classicList[j + 1])
+			{
+				swap(classicList[j], classicList[j + 1]);
+				swapped = true;
+			}
+		}
+
+		// IF no two elements were swapped by inner loop, then break 
+		if (swapped == false)
+			break;
+	}
+	// Funnies sorted by title then year
+	for (i = 0; i < (int)classicList.size() - 1; i++)
+	{
+		swapped = false;
+		for (j = 0; j < (int)classicList.size() - i - 1; j++)
+		{
+			if (classicList[i] > classicList[j + 1])
+			{
+				swap(classicList[j], classicList[j + 1]);
+				swapped = true;
+			}
+		}
+
+		// IF no two elements were swapped by inner loop, then break 
+		if (swapped == false)
+			break;
+	}
 }
