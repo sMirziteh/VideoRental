@@ -196,33 +196,16 @@ void Store::processCommands(ifstream& commFile)
 
 		if (!isAdded)
 		{
-			//two Video pointers to avoid compiler errors for initialization
-			//of currentVideo object
-			Video *vid;
-			if (genre == 'F')
-			{
-				Video *currentVideo = new Comedy(genre, stock, director, title, year);
-				vid = currentVideo;
-			}
-			else if (genre == 'D')
-			{
-				Video *currentVideo = new Drama(genre, stock, director, title, year);
-				vid = currentVideo;
-			}
-			else
-			{
-				Video *currentVideo = new Classical(genre, stock, director, title,
-					first, last, month, year);
-				vid = currentVideo;
-			}
-			videoList.push_back(vid);
+
 		}
 	}
 }
 
 bool Store::updateStock(string curTitle, int curStock)
 {
+	
 	bool found = false;
+	/*
 	for (int i = 0; i < (int)videoList.size(); i++)
 	{
 		Video *temp = videoList[i];
@@ -233,13 +216,14 @@ bool Store::updateStock(string curTitle, int curStock)
 			return true;
 		}
 	}
+	*/
 	return found;
 }
 
 bool Store::containsVideo(Video *other)
 {
 	bool found = false;
-
+	/*
 	for (int i = 0; i < (int)videoList.size(); i++)
 	{
 		Video *temp = videoList[i];
@@ -254,5 +238,6 @@ bool Store::containsVideo(Video *other)
 				return true;
 		}
 	}
+	*/
 	return found;
 }
