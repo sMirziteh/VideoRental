@@ -42,6 +42,7 @@ public:
   Comedy();
   Comedy(const char &genre, const int &stock,
          const string &director, const string &title, const int &releaseYear);
+  bool operator>(const Comedy &) const;
 };
 
 class Drama : public Video
@@ -50,6 +51,7 @@ public:
   Drama();
   Drama(const char &genre, const int &stock,
         const string &director, const string &title, const int &releaseYear);
+  bool operator>(const Drama &) const;
 };
 
 class Classical : public Video
@@ -66,6 +68,7 @@ public:
   void setMajActLN(string ln);
   int getReleaseMonth() const;
   void setReleaseMonth(int rm);
+  bool operator>(const Classical &) const;
 
 protected:
   string majActFN;
