@@ -12,20 +12,21 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 #include "Customer.h"
+#include <vector>
 
 class HashTable
 {
-public:
+  public:
 	HashTable();
 	~HashTable();
 	void add(Customer *);
 	Customer *get(int);
-	void remove(Customer *);
+	void remove(int);
 	int hash(int);
 	bool isFull();
 
-private:
-	vector<Customer> objectList(10) = {nullptr};
+  private:
+	vector<Customer *> customerList;
 };
 
 #endif // HASHTABLE_H
