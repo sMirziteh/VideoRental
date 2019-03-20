@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{33E8B044-EBC2-4CEE-9565-82983BD3FAFE}</ProjectGuid>
+    <ProjectGuid>{1B5E22EE-A0C0-4A69-8A65-258D86997F7D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>VideoRentalSolution</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
@@ -91,6 +91,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\Users\KierFisher\source\repos\VideoRental;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,24 +152,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Customer.h" />
-    <ClInclude Include="hashtable.h" />
+    <ClInclude Include="..\..\Customer.h" />
+    <ClInclude Include="..\..\hashtable.h" />
+    <ClInclude Include="..\..\Store.h" />
+    <ClInclude Include="..\..\Video.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Store.h" />
-    <ClInclude Include="Video.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Customer.cpp" />
-    <ClCompile Include="hashtable.cpp" />
+    <ClCompile Include="..\..\Customer.cpp" />
+    <ClCompile Include="..\..\hashtable.cpp" />
+    <ClCompile Include="..\..\Store.cpp" />
+    <ClCompile Include="..\..\Video.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Store.cpp" />
-    <ClCompile Include="Video.cpp" />
-    <ClCompile Include="VideoRentalSolution.cpp" />
+    <ClCompile Include="solutionMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
