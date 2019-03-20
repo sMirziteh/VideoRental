@@ -84,10 +84,10 @@ void Store::initializeInventory(ifstream& invFile)
 		}
 		else
 		{
-			Video *currentVideo = new Classical(genre, stock, director, title,
+			Classical *currentVideo = new Classical(genre, stock, director, title,
 				first, last, month, year);
-			vid = currentVideo;
-			classicList.push_back(vid);
+			//vid = currentVideo;
+			classicList.push_back(currentVideo);
 		}
 
 		
@@ -97,24 +97,27 @@ void Store::initializeInventory(ifstream& invFile)
 void Store::initializeCustomers(ifstream& custFile)
 {
 	int id;
-	string first, last, line;
-
-	while (getline(custFile, line))
+	string first, last;
+	//TEST
+	cout << "before loop" << endl;
+	while (custFile >> id >> first >> last)
 	{
-		stringstream stream(line);
-		stream >> id;
-		stream >> first;
-		stream >> last;
 		Customer *cust = new Customer(id, first, last);
 		customerList.add(cust);
+		
+		//TEST
+		cout << "customer added: " 
+			<< id << " " << first << " " << last << endl;
 	}
+	//TEST
+	cout << "after loop" << endl;
 }
 
 void Store::processCommands(ifstream& commFile)
 {
 	char command, genre = '-', videoType;
 	int ID, month, year;
-	string director, title, first, last;
+	string director, title, first, last, entry;
 
 	string line;
 	//read each line from the file
@@ -141,30 +144,54 @@ void Store::processCommands(ifstream& commFile)
 					continue;
 				}
 				stream >> genre;
-				if (genre == 'F' || genre == 'D' || genre == 'C')
+				
+				// If classical movie format is month year first last
+				if (genre == 'C')
 				{
-					// If classical movie format is month year first last
-					if (genre == 'C')
-					{
-						stream >> month;
-						stream >> year;
-						stream >> first;
-						stream >> last;
-						Classical temp();
-					}
+					stream >> month;
+					stream >> year;
+					stream >> first;
+					stream >> last;
+
+					//TEST CODE
+					cout << "----- " << "classical, month = " << month << " year = " << year << " actor = " << first << " " << last << " ----" << endl;
+					//END
+				}
+				//If genre is comedy format is title, year
+				else if (genre == 'F')
+				{
+					//split string on ',' character
+					getline(stream, title, ',');
+					//eleminate leading whitespace
+					title = title.substr(1, title.length());
+
+					//split string on ',' character
+					getline(stream, entry, ',');
+					//eleminate leading whitespace
+					entry = entry.substr(1, entry.length());
+					year = stoi(entry);
+
+					//TEST CODE
+					cout << "---- " << "comedy, title = " << title << " year = " << year << " ----" << endl;
+					//END
+				}
+				//If genre is drama, format is director, title, (<-extra comma at end)
+				else if (genre == 'D')
+				{
+					//split string on ',' character
+					getline(stream, title, ',');
+					//eleminate leading whitespace
+					title = title.substr(1, title.length());
+
 					//split string on ',' character
 					getline(stream, director, ',');
 					//eleminate leading whitespace
 					director = director.substr(1, director.length());
 
-					//split string on ',' character
-					getline(stream, title, ',');
-					//eleminate leading whitespace
-					title = title.substr(1, title.length());
-					//get the year from the stream
-					stream >> year;
+					//TEST CODE
+					cout << "---- " << "drama, director = " << director << " title = " << title << " ----" << endl;
+					//END
 				}
-
 				//Something other than F, D, or C was entered as the genre
 				else
 				{
@@ -187,11 +214,11 @@ bool Store::updateStock(string curTitle, int curStock)
 {
 	for (int i = 0; i < (int)classicList.size(); i++)
 	{
-		Video *temp = classicList[i];
-		if (temp->getTitle == curTitle)
+		Classical *temp = classicList[i];
+		if (temp->Video::getTitle() == curTitle)
 		{
-			int stock = temp->getStock + curStock;
-			temp->setStock(stock);
+			int stock = temp->Video::getStock() + curStock;
+			temp->Video::setStock(stock);
 			return true;
 		}
 	}
@@ -200,26 +227,73 @@ bool Store::updateStock(string curTitle, int curStock)
 
 bool Store::containsVideo(Video *other)
 {
-	bool found = false;
+	string title = other->getTitle();
+	string director = other->getDirector();
 
-	if (other->getTitle != "-")
+	for (int i = 0; i < (int)dramaList.size(); i++)
 	{
-
+		Video *temp = dramaList[i];
+		if (temp->getTitle() == title)
+			return true;
+		else if (temp->getDirector() == director)
+			return true;
 	}
 
-	/*
-	for (int i = 0; i < (int)videoList.size(); i++)
+	for (int i = 0; i < (int)funnyList.size(); i++)
 	{
-		Video *temp = videoList[i];
-		char genre = temp->getGenre;
-		if (genre == other->getGenre)
-		{
-			if (temp->getDirector == other->getDirector &&
-				temp->getTitle == other->getTitle &&
-				temp->getReleaseYear == other->getReleaseYear)
-				return true;
-		}
+		Video *temp = funnyList[i];
+		if (temp->getTitle() == title)
+			return true;
+		else if (temp->getDirector() == director)
+			return true;
 	}
-	*/
-	return found;
+
+	return false;
+}
+
+bool Store::containsClassical(Classical *other)
+{
+	int month = other->getReleaseMonth();
+	int year = other->Video::getReleaseYear();
+	string actorFirst = other->getMajActFN();
+	string actorLast = other->getMajActLN();
+
+	for (int i = 0; i < (int)classicList.size(); i++)
+	{
+		Classical *temp = classicList[i];
+		if (month == temp->getReleaseMonth() && year == temp->Video::getReleaseYear()
+			&& actorFirst == temp->getMajActFN() && actorLast == temp->getMajActLN())
+			return true;
+	}
+
+	return false;
+}
+
+//TEST METHODS
+void Store::printComm()
+{
+
+}
+
+void Store::printCust()
+{
+	customerList.print();
+}
+
+void Store::printInv()
+{
+	for (int i = 0; i < (int)dramaList.size(); i++)
+	{
+		cout << dramaList[i] << endl;
+	}
+	cout << endl;
+	for (int i = 0; i < (int)funnyList.size(); i++)
+	{
+		cout << funnyList[i] << endl;
+	}
+	cout << endl;
+	for (int i = 0; i < (int)classicList.size(); i++)
+	{
+		cout << classicList[i] << endl;
+	}
 }

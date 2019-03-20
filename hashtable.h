@@ -25,6 +25,10 @@ class HashTable
 	int hash(int);
 	bool isFull();
 
+	//TEST METHOD
+	void print();
+	//END
+
   private:
 	vector<Customer *> customerList;
 };

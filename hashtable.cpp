@@ -99,3 +99,12 @@ bool HashTable::isFull() {
 	}
 	return true;
 }
+
+//TEST METHOD
+void HashTable::print()
+{
+	for (int i = 0; i < (int)customerList.size(); i++)
+	{
+		cout << customerList[i] << endl;
+	}
+}
