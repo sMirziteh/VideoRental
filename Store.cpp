@@ -79,19 +79,22 @@ void Store::initializeInventory(ifstream& invFile)
 			{
 				Video *currentVideo = new Comedy(genre, stock, director, title, year);
 				vid = currentVideo;
+				funnyList.push_back(vid);
 			}
 			else if (genre == 'D')
 			{
 				Video *currentVideo = new Drama(genre, stock, director, title, year);
 				vid = currentVideo;
+				dramaList.push_back(vid);
 			}
 			else
 			{
 				Video *currentVideo = new Classical(genre, stock, director, title,
 					first, last, month, year);
 				vid = currentVideo;
+				classicList.push_back(vid);
 			}
-			videoList.push_back(vid);
+
 		}
 	}
 }
