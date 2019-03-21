@@ -159,8 +159,6 @@ void Store::processCommands(ifstream& commFile)
 			else if (genre == 'F' || genre == 'D' || genre == 'C')
 			{
 				Video *temp;
-				Classical *clasTemp;
-				bool isClassic = false;
 				// If classical movie format is month year first last
 				if (genre == 'C')
 				{
@@ -176,7 +174,27 @@ void Store::processCommands(ifstream& commFile)
 					cTemp->setReleaseMonth(month);
 					cTemp->setReleaseYear(year);
 					temp = cTemp;
-					isClassic = true;
+					Classical *clasTemp = cTemp;
+					clasTemp = cTemp;
+
+					// If video is found, update the stock of the video
+					if (containsVideo(clasTemp)) {
+						if (command == 'B') {
+							if (!updateStock(temp->getTitle(), -1))
+								cout << "No available copies" << endl;
+						}
+						else if (command == 'R') {
+							if (!Store::isBorrowed(ID, temp))
+								cout << "Movie wasn't borrowed" << endl;
+							else
+								updateStock(temp->getTitle(), 1);
+						}
+					}
+					else {
+						cout << "Movie does not exist!" << endl;
+					}
+
+
 				}
 
 				// If drama movie format is director, movie,
@@ -210,8 +228,7 @@ void Store::processCommands(ifstream& commFile)
 				}
 
 				// If video is found, update the stock of the video
-				if ((!isClassic && containsVideo(temp))
-					|| (isClassic && containsVideo(clasTemp))) {
+				if (containsVideo(temp)) {
 					if (command == 'B') {
 						if (!updateStock(temp->getTitle(), -1))
 							cout << "No available copies" << endl;
