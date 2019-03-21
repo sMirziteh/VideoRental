@@ -18,6 +18,7 @@ int main()
 {
     cout << "Welcome to Blockbuster video!" << endl;
     cout << "This system tracks inventory and customer transaction history" << endl;
+    cout << endl;
     //create store
     Store Blockbuster;
 
