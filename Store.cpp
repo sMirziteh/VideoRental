@@ -8,6 +8,7 @@ using namespace std;
 Store::Store() {
 }
 
+//deletes all of the objects contained by store
 Store::~Store() {
 	for (unsigned i = 0; i < dramaList.size(); i++) {
 		delete dramaList[i];
@@ -23,6 +24,8 @@ Store::~Store() {
 	}
 }
 
+//adds all of the movies and their stock values from the given
+//ifstream variable
 void Store::initializeInventory(ifstream& invFile)
 {
 	bool isAdded = false;
@@ -79,11 +82,9 @@ void Store::initializeInventory(ifstream& invFile)
 			cout << "Invalid Genre" << endl;
 			continue;	//continue to the next line of input
 		}
-
+		//check to make sure a classical movie isn't added twice
 		if (!isAdded)
 		{
-			//two Video pointers to avoid compiler errors for initialization
-			//of currentVideo object
 			if (genre == 'F')
 			{
 				Comedy *currentVideo = new Comedy(genre, stock, director, title, year);
@@ -108,6 +109,7 @@ void Store::initializeInventory(ifstream& invFile)
 	sort();
 }
 
+//adds all of the customers from the given ifstream file
 void Store::initializeCustomers(ifstream& custFile)
 {
 	int id;
@@ -120,6 +122,7 @@ void Store::initializeCustomers(ifstream& custFile)
 	}
 }
 
+//processes commands from the given ifstream file
 void Store::processCommands(ifstream& commFile)
 {
 	bool isAdded = false;
@@ -193,6 +196,7 @@ void Store::processCommands(ifstream& commFile)
 						else if (command == 'R') {
 							if (!Store::isBorrowed(ID, temp))
 								cout << "Movie wasn't borrowed" << endl;
+							//Add to transaction
 							else
 							{
 								updateStock(temp->getTitle(), 1);
@@ -243,6 +247,7 @@ void Store::processCommands(ifstream& commFile)
 					if (command == 'B') {
 						if (!updateStock(temp->getTitle(), -1))
 							cout << "No available copies" << endl;
+						//Add transaction
 						else
 						{
 							Customer *cust = customerList.get(ID);
@@ -255,6 +260,7 @@ void Store::processCommands(ifstream& commFile)
 					{
 						if (!Store::isBorrowed(ID, temp))
 							cout << "Movie wasn't borrowed" << endl;
+						//Add transaction
 						else
 							updateStock(temp->getTitle(), 1);
 							Customer *cust = customerList.get(ID);
@@ -313,6 +319,8 @@ void Store::processCommands(ifstream& commFile)
 	}
 }
 
+//takes a string and an int to update the stock values of a movie.
+//returns false if there isn't enough stock or if the movie doesn't exist
 bool Store::updateStock(string curTitle, int curStock)
 {
 	for (int i = 0; i < (int)classicList.size(); i++)
@@ -356,6 +364,7 @@ bool Store::updateStock(string curTitle, int curStock)
 	return false;
 }
 
+//checks if the given video exists
 bool Store::containsVideo(Video *other)
 {
 	for (int i = 0; i < (int)dramaList.size(); i++)
@@ -375,6 +384,7 @@ bool Store::containsVideo(Video *other)
 	return false;
 }
 
+//checks if the given classical movie exists
 bool Store::containsVideo(Classical *other)
 {
 	for (int i = 0; i < (int)classicList.size(); i++)
@@ -386,6 +396,7 @@ bool Store::containsVideo(Classical *other)
 	return false;
 }
 
+//sorts the movies
 void Store::sort() {
 	// Using Bubble Sort
 
@@ -463,25 +474,4 @@ bool Store::isBorrowed(int ID, Video *vid)
 {
 	Customer *cust = customerList.get(ID);
 	return cust->Customer::isBorrowed(vid);
-}
-
-//TEST
-void Store::printCust()
-{
-	customerList.print();
-}
-void Store::printInv()
-{
-	for (int i = 0; i < (int)funnyList.size(); i++)
-	{
-		cout << *funnyList[i] << endl;
-	}
-	for (int i = 0; i < (int)dramaList.size(); i++)
-	{
-		cout << *dramaList[i] << endl;
-	}
-	for (int i = 0; i < (int)classicList.size(); i++)
-	{
-		cout << *classicList[i] << endl;
-	}
 }
