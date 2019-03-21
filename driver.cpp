@@ -15,6 +15,7 @@ int main()
 		cout << "data4movies.txt could not be opened." << endl;
 		return 1;
 	}
+	else cout << "Opening data4movies.txt" << endl;
 	Blockbuster.initializeInventory(movies);
 
 	ifstream customers("data4customers.txt");
@@ -23,6 +24,7 @@ int main()
 		cout << "data4customers.txt could not be opened." << endl;
 		return 1;
 	}
+	else cout << "Opening data4customers.txt" << endl;
 	Blockbuster.initializeCustomers(customers);
 
 	ifstream commands("data4commands.txt");
@@ -31,6 +33,7 @@ int main()
 		cout << "data4commands.txt could not be opened." << endl;
 		return 1;
 	}
+	else cout << "Opening data4commands.txt" << endl;
 	Blockbuster.processCommands(commands);
 
 	return 0;
