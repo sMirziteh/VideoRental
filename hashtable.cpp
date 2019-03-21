@@ -47,7 +47,7 @@ void HashTable::add(Customer* newCustomer) {
 	customerList[location] = newCustomer;
 }
 
-
+//gets the customer using the given ID
 Customer* HashTable::get(int ID) {
 	int location = hash(ID);
 
@@ -70,6 +70,7 @@ Customer* HashTable::get(int ID) {
 	return nullptr;
 }
 
+//removes the given customer from the vector
 void HashTable::remove(int ID) {
 	int location = hash(ID);
 
@@ -94,6 +95,7 @@ int HashTable::hash(int ID) {
 	return ID % 10;
 }
 
+//returns whether the vector is full or not
 bool HashTable::isFull() {
 	for (int i = 0; i < (int)customerList.size(); i++) {
 		if (customerList[i] == nullptr) {
@@ -101,13 +103,4 @@ bool HashTable::isFull() {
 		}
 	}
 	return true;
-}
-
-//TEST
-void HashTable::print()
-{
-	for (int i = 0; i < (int)customerList.size(); i++)
-	{
-		cout << *customerList[i] << endl;
-	}
 }
