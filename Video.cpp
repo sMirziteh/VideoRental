@@ -22,13 +22,13 @@ Video::Video()
 // Description: instantiates new Video object with given values
 // -------------------------------------------------------------------
 Video::Video(const char &g, const int &s, const string &d,
-             const string &t, const int &ry)
+	const string &t, const int &ry)
 {
-    genre = g;
-    stock = s;
-    director = d;
-    title = t;
-    releaseYear = ry;
+	genre = g;
+	stock = s;
+	director = d;
+	title = t;
+	releaseYear = ry;
 }
 
 // ------------------------------destructor------------------------
@@ -51,29 +51,10 @@ Comedy::Comedy() : Video()
 // Description: instantiates new Comedy video w/ values
 // -------------------------------------------------------------------
 Comedy::Comedy(const char &g, const int &s, const string &d,
-               const string &t, const int &ry) : Video(g, s, d, t, ry)
+	const string &t, const int &ry) : Video(g, s, d, t, ry)
 {
 }
 
-<<<<<<< HEAD
-bool Comedy::operator>(const Comedy &rhs) const
-{
-    // Funnies sorted by title then year
-    if (getTitle() > rhs.getTitle())
-    {
-        return true;
-    }
-    else if (getTitle() == rhs.getTitle())
-    {
-        if (getReleaseYear() > rhs.getReleaseYear())
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-=======
 //<<<<<<< HEAD
 // ------------------------------Drama constr------------------------
 // Constructor
@@ -94,7 +75,6 @@ bool Comedy::operator>(const Comedy& rhs) const {
 }
 
 //>>>>>>> Jordan
->>>>>>> 6c4d714b15a8c47e5dee4b36e01bb2fd4446a337
 Drama::Drama() : Video()
 {
 }
@@ -104,29 +84,10 @@ Drama::Drama() : Video()
 // Description: instantiates new Drama video w/ values
 // -------------------------------------------------------------------
 Drama::Drama(const char &g, const int &s, const string &d,
-             const string &t, const int &ry) : Video(g, s, d, t, ry)
+	const string &t, const int &ry) : Video(g, s, d, t, ry)
 {
 }
 
-<<<<<<< HEAD
-bool Drama::operator>(const Drama &rhs) const
-{
-    // Drama sorted by director then title
-    if (getDirector() > rhs.getDirector())
-    {
-        return true;
-    }
-    else if (getDirector() == rhs.getDirector())
-    {
-        if (getTitle() > rhs.getTitle())
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-=======
 //<<<<<<< HEAD
 // ------------------------------Classical constr------------------------
 // Constructor
@@ -147,7 +108,6 @@ bool Drama::operator>(const Drama& rhs) const {
 }
 
 //>>>>>>> Jordan
->>>>>>> 6c4d714b15a8c47e5dee4b36e01bb2fd4446a337
 Classical::Classical() : Video()
 {
 }
@@ -157,42 +117,15 @@ Classical::Classical() : Video()
 // Description: instantiates new Classical video w/ values
 // -------------------------------------------------------------------
 Classical::Classical(const char &g, const int &s, const string &d,
-                     const string &t, const string &maFN,
-                     const string &maLN, const int &rm, const int &ry)
-    : Video(g, s, d, t, ry)
+	const string &t, const string &maFN,
+	const string &maLN, const int &rm, const int &ry)
+	: Video(g, s, d, t, ry)
 {
-    majActFN = maFN;
-    majActLN = maLN;
-    releaseMonth = rm;
+	majActFN = maFN;
+	majActLN = maLN;
+	releaseMonth = rm;
 }
 
-<<<<<<< HEAD
-bool Classical::operator>(const Classical &rhs) const
-{
-    // Classics sorted by release date then major actor
-    if (getReleaseYear() > rhs.getReleaseYear())
-    {
-        return true;
-    }
-    else if (getReleaseYear() == rhs.getReleaseYear())
-    {
-        if (getReleaseMonth() > rhs.getReleaseMonth())
-        {
-            return true;
-        }
-        if (getReleaseMonth() == rhs.getReleaseMonth())
-        {
-            if ((getMajActFN() + getMajActLN()) > (rhs.getMajActFN() + rhs.getMajActLN()))
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-=======
 //<<<<<<< HEAD
 // ------------------------------modifyStock------------------------
 // increases or decreases video stock by the amount provided
@@ -218,18 +151,17 @@ bool Classical::operator>(const Classical& rhs) const {
 }
 
 //>>>>>>> Jordan
->>>>>>> 6c4d714b15a8c47e5dee4b36e01bb2fd4446a337
 void Video::modifyStock(int s)
 {
-    //if negative, decrease stock
-    if (s < 0)
-    {
-        stock -= s;
-    }
-    else //increase
-    {
-        stock += s;
-    }
+	//if negative, decrease stock
+	if (s < 0)
+	{
+		stock -= s;
+	}
+	else //increase
+	{
+		stock += s;
+	}
 }
 
 // ------------------------------*Getters*------------------------
@@ -238,42 +170,42 @@ void Video::modifyStock(int s)
 // -------------------------------------------------------------------
 int Video::getStock() const
 {
-    return stock;
+	return stock;
 }
 
 char Video::getGenre() const
 {
-    return genre;
+	return genre;
 }
 
 int Video::getReleaseYear() const
 {
-    return releaseYear;
+	return releaseYear;
 }
 
 string Video::getDirector() const
 {
-    return director;
+	return director;
 }
 
 string Video::getTitle() const
 {
-    return title;
+	return title;
 }
 
 string Classical::getMajActFN() const
 {
-    return majActFN;
+	return majActFN;
 }
 
 string Classical::getMajActLN() const
 {
-    return majActLN;
+	return majActLN;
 }
 
 int Classical::getReleaseMonth() const
 {
-    return releaseMonth;
+	return releaseMonth;
 }
 
 // ------------------------------*Setters*------------------------
@@ -283,42 +215,42 @@ int Classical::getReleaseMonth() const
 
 void Video::setStock(int s)
 {
-    stock = s;
+	stock = s;
 }
 
 void Video::setGenre(char g)
 {
-    genre = g;
+	genre = g;
 }
 
 void Video::setReleaseYear(int ry)
 {
-    releaseYear = ry;
+	releaseYear = ry;
 }
 
 void Video::setDirector(string d)
 {
-    director = d;
+	director = d;
 }
 
 void Video::setTitle(string t)
 {
-    title = t;
+	title = t;
 }
 
 void Classical::setMajActFN(string fn)
 {
-    majActFN = fn;
+	majActFN = fn;
 }
 
 void Classical::setMajActLN(string ln)
 {
-    majActLN = ln;
+	majActLN = ln;
 }
 
 void Classical::setReleaseMonth(int rm)
 {
-    releaseMonth = rm;
+	releaseMonth = rm;
 }
 
 // ------------------------------Overloaded << ------------------------
@@ -327,14 +259,14 @@ void Classical::setReleaseMonth(int rm)
 // -------------------------------------------------------------------
 ostream &operator<<(ostream &output, const Video &v)
 {
-    output << v.getTitle() << " " << v.getDirector() << " " << v.getReleaseYear() << " ";
-    return output;
+	output << v.getTitle() << " " << v.getDirector() << " " << v.getReleaseYear() << " ";
+	return output;
 }
 
 ostream &operator<<(ostream &output, const Classical &C)
 {
-    output << C.getTitle() << " " << C.getDirector() << " "
-           << C.getMajActFN() << " " << C.getMajActLN() << " "
-           << C.getReleaseMonth() << " " << C.getReleaseYear() << " ";
-    return output;
+	output << C.getTitle() << " " << C.getDirector() << " "
+		<< C.getMajActFN() << " " << C.getMajActLN() << " "
+		<< C.getReleaseMonth() << " " << C.getReleaseYear() << " ";
+	return output;
 }
