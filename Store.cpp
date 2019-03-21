@@ -162,7 +162,7 @@ void Store::processCommands(ifstream& commFile)
 				// If classical movie format is month year first last
 				if (genre == 'C')
 				{
-
+					isAdded = true;
 					stream >> month;
 					stream >> year;
 					stream >> first;
@@ -182,12 +182,22 @@ void Store::processCommands(ifstream& commFile)
 						if (command == 'B') {
 							if (!updateStock(clasTemp->getMajActFN(), -1))
 								cout << "No available copies" << endl;
+							//Add to transaction
+							else
+							{
+								Customer *cust = customerList.get(ID);
+								cust->addTransaction(command, videoType, *cTemp);
+							}
 						}
 						else if (command == 'R') {
 							if (!Store::isBorrowed(ID, temp))
 								cout << "Movie wasn't borrowed" << endl;
 							else
+							{
 								updateStock(temp->getTitle(), 1);
+								Customer *cust = customerList.get(ID);
+								cust->addTransaction(command, videoType, *cTemp);
+							}
 						}
 					}
 					else {
@@ -228,19 +238,26 @@ void Store::processCommands(ifstream& commFile)
 				}
 
 				// If video is found, update the stock of the video
-				if (containsVideo(temp)) {
+				if (!isAdded && containsVideo(temp)) {
 					if (command == 'B') {
 						if (!updateStock(temp->getTitle(), -1))
 							cout << "No available copies" << endl;
+						else
+						{
+							Customer *cust = customerList.get(ID);
+							cust->addTransaction(command, videoType, *temp);
+						}
 					}
 					else if (command == 'R') {
 						if (!Store::isBorrowed(ID, temp))
 							cout << "Movie wasn't borrowed" << endl;
 						else
 							updateStock(temp->getTitle(), 1);
+							Customer *cust = customerList.get(ID);
+							cust->addTransaction(command, videoType, *temp);
 					}
 				}
-				else {
+				else if (!isAdded) {
 					cout << "Movie does not exist!" << endl;
 				}
 			}
@@ -264,7 +281,7 @@ void Store::processCommands(ifstream& commFile)
 				cout << dramaList[i]->getStock() << " " << *dramaList[i] << endl;
 			}
 			for (unsigned i = 0; i < classicList.size(); i++) {
-				cout << dramaList[i]->getStock() << " " << *classicList[i] << endl;
+				cout << classicList[i]->getStock() << " " << *classicList[i] << endl;
 			}
 		}
 
