@@ -51,20 +51,23 @@ void HashTable::add(Customer* newCustomer) {
 Customer* HashTable::get(int ID) {
 	int location = hash(ID);
 
-	// Increment location until our item is found
-	while (customerList[location]->getID() != ID) {
-		location++;
-		// Start at the beginning of the vector if we've reached the end without finding our item.
-		if (location > (int)customerList.size()) {
-			location = 0;
-		}
-		// If location == the item's hash, then we know we've already fully traversed the vector so break.
-		else if (location == hash(ID)) {
-			return nullptr;
+	for (int i = location; i < (int)customerList.size(); i++) {
+		if (customerList[i]) {
+			if (customerList[i]->getID() == ID) {
+				return customerList[i];
+			}
 		}
 	}
 
-	return customerList[location];
+	for (int i = 0; i < location; i++) {
+		if (customerList[i]) {
+			if (customerList[i]->getID() == ID) {
+				return customerList[i];
+			}
+		}
+	}
+
+	return nullptr;
 }
 
 void HashTable::remove(int ID) {
@@ -98,4 +101,13 @@ bool HashTable::isFull() {
 		}
 	}
 	return true;
+}
+
+//TEST
+void HashTable::print()
+{
+	for (int i = 0; i < (int)customerList.size(); i++)
+	{
+		cout << *customerList[i] << endl;
+	}
 }
