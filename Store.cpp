@@ -113,7 +113,7 @@ void Store::initializeCustomers(ifstream& custFile)
 	int id;
 	string first, last;
 
-	while (custFile >> id >> first >> last)
+	while (custFile >> id >> last >> first)
 	{
 		Customer *cust = new Customer(id, first, last);
 		customerList.add(cust);
@@ -180,7 +180,7 @@ void Store::processCommands(ifstream& commFile)
 					// If video is found, update the stock of the video
 					if (containsVideo(clasTemp)) {
 						if (command == 'B') {
-							if (!updateStock(temp->getTitle(), -1))
+							if (!updateStock(clasTemp->getMajActFN(), -1))
 								cout << "No available copies" << endl;
 						}
 						else if (command == 'R') {
@@ -258,13 +258,13 @@ void Store::processCommands(ifstream& commFile)
 		else if (command == 'I') {
 			// Output comedies, dramas, and classics
 			for (unsigned i = 0; i < funnyList.size(); i++) {
-				cout << *funnyList[i] << endl;
+				cout << funnyList[i]->getStock() << " " << *funnyList[i] << endl;
 			}
 			for (unsigned i = 0; i < dramaList.size(); i++) {
-				cout << *dramaList[i] << endl;
+				cout << dramaList[i]->getStock() << " " << *dramaList[i] << endl;
 			}
 			for (unsigned i = 0; i < classicList.size(); i++) {
-				cout << *classicList[i] << endl;
+				cout << dramaList[i]->getStock() << " " << *classicList[i] << endl;
 			}
 		}
 
@@ -294,13 +294,39 @@ bool Store::updateStock(string curTitle, int curStock)
 {
 	for (int i = 0; i < (int)classicList.size(); i++)
 	{
-		Video *temp = classicList[i];
+		Classical *temp = classicList[i];
+		if (temp->getTitle() == curTitle || temp->getMajActFN() == curTitle)
+		{
+			if (temp->getStock() == 0)
+				return false;
+			int stock = temp->getStock() + curStock;
+			classicList[i]->setStock(stock);
+			return true;
+		}
+	}
+
+	for (int i = 0; i < (int)funnyList.size(); i++)
+	{
+		Video *temp = funnyList[i];
 		if (temp->getTitle() == curTitle)
 		{
 			if (temp->getStock() == 0)
 				return false;
 			int stock = temp->getStock() + curStock;
-			temp->setStock(stock);
+			funnyList[i]->setStock(stock);
+			return true;
+		}
+	}
+
+	for (int i = 0; i < (int)dramaList.size(); i++)
+	{
+		Video *temp = dramaList[i];
+		if (temp->getTitle() == curTitle)
+		{
+			if (temp->getStock() == 0)
+				return false;
+			int stock = temp->getStock() + curStock;
+			dramaList[i]->setStock(stock);
 			return true;
 		}
 	}
@@ -345,57 +371,66 @@ void Store::sort() {
 	bool swapped;
 
 	// Iterate through the vector until sorted
-	for (i = 0; i < classicList.size() - 1; i++)
+	if (classicList.size() > 1)
 	{
-		swapped = false;
-
-		// Iterate through vector to do the comparisons
-		for (j = 0; j < classicList.size() - i - 1; j++)
+		for (i = 0; i < classicList.size() - 1; i++)
 		{
-			if (classicList[i] > classicList[j + 1])
-			{
-				swap(classicList[j], classicList[j + 1]);
-				swapped = true;
-			}
-		}
+			swapped = false;
 
-		// If no swap occurs during inner loop we know vector is sorted.
-		if (swapped == false)
-			break;
+			// Iterate through vector to do the comparisons
+			for (j = 0; j < classicList.size() - i - 1; j++)
+			{
+				if (classicList[i] > classicList[j + 1])
+				{
+					swap(classicList[j], classicList[j + 1]);
+					swapped = true;
+				}
+			}
+
+			// If no swap occurs during inner loop we know vector is sorted.
+			if (swapped == false)
+				break;
+		}
 	}
 	// Drama sorted by director then title
-	for (i = 0; i < classicList.size() - 1; i++)
+	if (classicList.size() > 1)
 	{
-		swapped = false;
-		for (j = 0; j < classicList.size() - i - 1; j++)
+		for (i = 0; i < classicList.size() - 1; i++)
 		{
-			if (classicList[i] > classicList[j + 1])
+			swapped = false;
+			for (j = 0; j < classicList.size() - i - 1; j++)
 			{
-				swap(classicList[j], classicList[j + 1]);
-				swapped = true;
+				if (classicList[i] > classicList[j + 1])
+				{
+					swap(classicList[j], classicList[j + 1]);
+					swapped = true;
+				}
 			}
-		}
 
-		// IF no two elements were swapped by inner loop, then break 
-		if (swapped == false)
-			break;
+			// IF no two elements were swapped by inner loop, then break 
+			if (swapped == false)
+				break;
+		}
 	}
 	// Funnies sorted by title then year
-	for (i = 0; i < classicList.size() - 1; i++)
+	if (classicList.size() > 1)
 	{
-		swapped = false;
-		for (j = 0; j < classicList.size() - i - 1; j++)
+		for (i = 0; i < classicList.size() - 1; i++)
 		{
-			if (classicList[i] > classicList[j + 1])
+			swapped = false;
+			for (j = 0; j < classicList.size() - i - 1; j++)
 			{
-				swap(classicList[j], classicList[j + 1]);
-				swapped = true;
+				if (classicList[i] > classicList[j + 1])
+				{
+					swap(classicList[j], classicList[j + 1]);
+					swapped = true;
+				}
 			}
-		}
 
-		// IF no two elements were swapped by inner loop, then break 
-		if (swapped == false)
-			break;
+			// IF no two elements were swapped by inner loop, then break 
+			if (swapped == false)
+				break;
+		}
 	}
 }
 
