@@ -5,25 +5,30 @@
 
 using namespace std;
 
-Store::Store() {
+Store::Store()
+{
 }
 
-Store::~Store() {
-	for (unsigned i = 0; i < dramaList.size(); i++) {
+Store::~Store()
+{
+	for (unsigned i = 0; i < dramaList.size(); i++)
+	{
 		delete dramaList[i];
 		dramaList[i] = nullptr;
 	}
-	for (unsigned i = 0; i < classicList.size(); i++) {
+	for (unsigned i = 0; i < classicList.size(); i++)
+	{
 		delete classicList[i];
 		classicList[i] = nullptr;
 	}
-	for (unsigned i = 0; i < funnyList.size(); i++) {
+	for (unsigned i = 0; i < funnyList.size(); i++)
+	{
 		delete funnyList[i];
 		funnyList[i] = nullptr;
 	}
 }
 
-void Store::initializeInventory(ifstream& invFile)
+void Store::initializeInventory(ifstream &invFile)
 {
 	bool isAdded = false;
 	char genre;
@@ -37,7 +42,7 @@ void Store::initializeInventory(ifstream& invFile)
 		isAdded = false;
 		stringstream stream(line);
 
-		char garbageComma;	//for eleminating extra commas
+		char garbageComma; //for eleminating extra commas
 		stream >> genre;
 		stream >> garbageComma;
 
@@ -77,7 +82,7 @@ void Store::initializeInventory(ifstream& invFile)
 		else
 		{
 			cout << "Invalid Genre" << endl;
-			continue;	//continue to the next line of input
+			continue; //continue to the next line of input
 		}
 
 		if (!isAdded)
@@ -97,10 +102,9 @@ void Store::initializeInventory(ifstream& invFile)
 			else
 			{
 				Classical *currentVideo = new Classical(genre, stock, director, title,
-					first, last, month, year);
+														first, last, month, year);
 				classicList.push_back(currentVideo);
 			}
-
 		}
 	}
 
@@ -108,7 +112,7 @@ void Store::initializeInventory(ifstream& invFile)
 	sort();
 }
 
-void Store::initializeCustomers(ifstream& custFile)
+void Store::initializeCustomers(ifstream &custFile)
 {
 	int id;
 	string first, last;
@@ -120,7 +124,7 @@ void Store::initializeCustomers(ifstream& custFile)
 	}
 }
 
-void Store::processCommands(ifstream& commFile)
+void Store::processCommands(ifstream &commFile)
 {
 	bool isAdded = false;
 	char command;
@@ -143,7 +147,8 @@ void Store::processCommands(ifstream& commFile)
 		{
 			stream >> ID;
 			// If we get a nullptr, the customer doesn't exist
-			if (customerList.get(ID) == nullptr) {
+			if (customerList.get(ID) == nullptr)
+			{
 				cout << "Customer does not exist!" << endl;
 				// Skip the rest of this iteration and go to next command.
 				continue;
@@ -152,7 +157,8 @@ void Store::processCommands(ifstream& commFile)
 			stream >> videoType;
 			stream >> genre;
 			// If we get any video type other than D then incorrect input
-			if (videoType != 'D') {
+			if (videoType != 'D')
+			{
 				cout << "Invalid Video Type!" << endl;
 				continue;
 			}
@@ -178,8 +184,10 @@ void Store::processCommands(ifstream& commFile)
 					clasTemp = cTemp;
 
 					// If video is found, update the stock of the video
-					if (containsVideo(clasTemp)) {
-						if (command == 'B') {
+					if (containsVideo(clasTemp))
+					{
+						if (command == 'B')
+						{
 							if (!updateStock(clasTemp->getMajActFN(), -1))
 								cout << "No available copies" << endl;
 							//Add to transaction
@@ -189,7 +197,8 @@ void Store::processCommands(ifstream& commFile)
 								cust->addTransaction(command, videoType, *cTemp);
 							}
 						}
-						else if (command == 'R') {
+						else if (command == 'R')
+						{
 							if (!Store::isBorrowed(ID, temp))
 								cout << "Movie wasn't borrowed" << endl;
 							else
@@ -200,11 +209,10 @@ void Store::processCommands(ifstream& commFile)
 							}
 						}
 					}
-					else {
+					else
+					{
 						cout << "Movie does not exist!" << endl;
 					}
-
-
 				}
 
 				// If drama movie format is director, movie,
@@ -225,7 +233,8 @@ void Store::processCommands(ifstream& commFile)
 					temp = dTemp;
 				}
 				// If funny movie format is Title, year
-				else {
+				else
+				{
 					//split string on ',' character
 					getline(stream, title, ',');
 					//eleminate leading whitespace
@@ -238,8 +247,10 @@ void Store::processCommands(ifstream& commFile)
 				}
 
 				// If video is found, update the stock of the video
-				if (!isAdded && containsVideo(temp)) {
-					if (command == 'B') {
+				if (!isAdded && containsVideo(temp))
+				{
+					if (command == 'B')
+					{
 						if (!updateStock(temp->getTitle(), -1))
 							cout << "No available copies" << endl;
 						else
@@ -248,16 +259,19 @@ void Store::processCommands(ifstream& commFile)
 							cust->addTransaction(command, videoType, *temp);
 						}
 					}
-					else if (command == 'R') {
+					else if (command == 'R')
+					{
 						if (!Store::isBorrowed(ID, temp))
 							cout << "Movie wasn't borrowed" << endl;
 						else
 							updateStock(temp->getTitle(), 1);
-							Customer *cust = customerList.get(ID);
-							cust->addTransaction(command, videoType, *temp);
+						Customer *cust = customerList.get(ID);
+						cust->addTransaction(command, videoType, *temp);
+						cout << "movie rented" << endl;
 					}
 				}
-				else if (!isAdded) {
+				else if (!isAdded)
+				{
 					cout << "Movie does not exist!" << endl;
 				}
 			}
@@ -266,31 +280,36 @@ void Store::processCommands(ifstream& commFile)
 			else
 			{
 				cout << "Invalid Genre" << endl;
-				continue;	//continue to the next line of input
+				continue; //continue to the next line of input
 			}
-
 		}
 
 		// If command is inventory
-		else if (command == 'I') {
+		else if (command == 'I')
+		{
 			// Output comedies, dramas, and classics
-			for (unsigned i = 0; i < funnyList.size(); i++) {
+			for (unsigned i = 0; i < funnyList.size(); i++)
+			{
 				cout << funnyList[i]->getStock() << " " << *funnyList[i] << endl;
 			}
-			for (unsigned i = 0; i < dramaList.size(); i++) {
+			for (unsigned i = 0; i < dramaList.size(); i++)
+			{
 				cout << dramaList[i]->getStock() << " " << *dramaList[i] << endl;
 			}
-			for (unsigned i = 0; i < classicList.size(); i++) {
+			for (unsigned i = 0; i < classicList.size(); i++)
+			{
 				cout << classicList[i]->getStock() << " " << *classicList[i] << endl;
 			}
 		}
 
 		// If command is history
-		else if (command == 'H') {
+		else if (command == 'H')
+		{
 			stream >> ID;
 			Customer *temp = customerList.get(ID);
 			// If we get a nullptr, the customer doesn't exist
-			if (temp == nullptr) {
+			if (temp == nullptr)
+			{
 				cout << "Customer does not exist!" << endl;
 				// Skip the rest of this iteration and go to next command.
 				continue;
@@ -302,7 +321,7 @@ void Store::processCommands(ifstream& commFile)
 		else
 		{
 			cout << "Invalid Command" << endl;
-			continue;	//continue to the next line of input
+			continue; //continue to the next line of input
 		}
 	}
 }
@@ -355,15 +374,13 @@ bool Store::containsVideo(Video *other)
 	for (int i = 0; i < (int)dramaList.size(); i++)
 	{
 		Video *temp = dramaList[i];
-		if ((other->getDirector() == temp->getDirector())
-			|| (other->getTitle() == temp->getTitle()))
+		if ((other->getDirector() == temp->getDirector()) || (other->getTitle() == temp->getTitle()))
 			return true;
 	}
 	for (int i = 0; i < (int)funnyList.size(); i++)
 	{
 		Video *temp = funnyList[i];
-		if ((other->getDirector() == temp->getDirector())
-			|| (other->getTitle() == temp->getTitle()))
+		if ((other->getDirector() == temp->getDirector()) || (other->getTitle() == temp->getTitle()))
 			return true;
 	}
 	return false;
@@ -380,7 +397,8 @@ bool Store::containsVideo(Classical *other)
 	return false;
 }
 
-void Store::sort() {
+void Store::sort()
+{
 	// Using Bubble Sort
 
 	// Classics sorted by release date then major actor
@@ -424,7 +442,7 @@ void Store::sort() {
 				}
 			}
 
-			// IF no two elements were swapped by inner loop, then break 
+			// IF no two elements were swapped by inner loop, then break
 			if (swapped == false)
 				break;
 		}
@@ -444,7 +462,7 @@ void Store::sort() {
 				}
 			}
 
-			// IF no two elements were swapped by inner loop, then break 
+			// IF no two elements were swapped by inner loop, then break
 			if (swapped == false)
 				break;
 		}
