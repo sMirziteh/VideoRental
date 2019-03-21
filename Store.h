@@ -18,6 +18,10 @@ public:
 	void initializeCustomers(ifstream&);
 	void processCommands(ifstream&);
 
+	//TEST
+	void printCust();
+	void printInv();
+
 private:
 	void sort();
 	vector<Drama*> dramaList;
@@ -27,6 +31,7 @@ private:
 
 	bool containsVideo(Video*);
 	bool updateStock(string, int);
+	bool isBorrowed(int, Video*);
 };
 
 #endif

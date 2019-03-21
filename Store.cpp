@@ -115,14 +115,10 @@ void Store::initializeInventory(ifstream &invFile)
 void Store::initializeCustomers(ifstream &custFile)
 {
 	int id;
-	string first, last, line;
+	string first, last;
 
-	while (getline(custFile, line))
+	while (custFile >> id >> first >> last)
 	{
-		stringstream stream(line);
-		stream >> id;
-		stream >> first;
-		stream >> last;
 		Customer *cust = new Customer(id, first, last);
 		customerList.add(cust);
 	}
@@ -159,13 +155,13 @@ void Store::processCommands(ifstream &commFile)
 			}
 
 			stream >> videoType;
+			stream >> genre;
 			// If we get any video type other than D then incorrect input
 			if (videoType != 'D')
 			{
 				cout << "Invalid Video Type!" << endl;
 				continue;
 			}
-
 			else if (genre == 'F' || genre == 'D' || genre == 'C')
 			{
 				Video *temp;
@@ -205,7 +201,7 @@ void Store::processCommands(ifstream &commFile)
 					temp = dTemp;
 				}
 				// If funny movie format is Title, year
-				else if (genre == 'F')
+				else
 				{
 					//split string on ',' character
 					getline(stream, title, ',');
@@ -223,12 +219,15 @@ void Store::processCommands(ifstream &commFile)
 				{
 					if (command == 'B')
 					{
-
-						updateStock(temp, -1);
+						if (!updateStock(temp->getTitle(), -1))
+							cout << "No available copies" << endl;
 					}
 					else if (command == 'R')
 					{
-						updateStock(temp, 1);
+						if (!Store::isBorrowed(ID, temp))
+							cout << "Movie wasn't borrowed" << endl;
+						else
+							updateStock(temp->getTitle(), 1);
 					}
 				}
 				else
@@ -289,21 +288,19 @@ void Store::processCommands(ifstream &commFile)
 
 bool Store::updateStock(string curTitle, int curStock)
 {
-
-	bool found = false;
-	/*
-	for (int i = 0; i < (int)videoList.size(); i++)
+	for (int i = 0; i < (int)classicList.size(); i++)
 	{
-		Video *temp = videoList[i];
-		if (temp->getGenre == 'C' && temp->getTitle == curTitle)
+		Video *temp = classicList[i];
+		if (temp->getTitle() == curTitle)
 		{
-			int stock = temp->getStock + curStock;
+			if (temp->getStock() == 0)
+				return false;
+			int stock = temp->getStock() + curStock;
 			temp->setStock(stock);
 			return true;
 		}
 	}
-	*/
-	return found;
+	return false;
 }
 
 bool Store::containsVideo(Video *other)
@@ -388,5 +385,32 @@ void Store::sort()
 		// IF no two elements were swapped by inner loop, then break
 		if (swapped == false)
 			break;
+	}
+}
+
+bool Store::isBorrowed(int ID, Video *vid)
+{
+	Customer *cust = customerList.get(ID);
+	return cust->Customer::isBorrowed(vid);
+}
+
+//TEST
+void Store::printCust()
+{
+	customerList.print();
+}
+void Store::printInv()
+{
+	for (int i = 0; i < (int)funnyList.size(); i++)
+	{
+		cout << *funnyList[i] << endl;
+	}
+	for (int i = 0; i < (int)dramaList.size(); i++)
+	{
+		cout << *dramaList[i] << endl;
+	}
+	for (int i = 0; i < (int)classicList.size(); i++)
+	{
+		cout << *classicList[i] << endl;
 	}
 }
