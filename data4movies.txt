@@ -1,0 +1,7 @@
+F, 10, Nora Ephron, You've Got Mail, 1998
+D, 2, Steven Spielberg, Schindler's List, 1993
+C, 25, George Cukor, Holiday, Katherine Hepburn 9 1938
+C, 61, George Cukor, Holiday, Cary Grant 9 1938
+Z, 1, Hal Ashby, Harold and Maude, Ruth Gordon 2 1971
+D, 4, Phillippe De Broca, King of Hearts, 1967
+F, 3, Pirates of the Caribbean, Gore Verbinski, 2003
