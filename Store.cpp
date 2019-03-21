@@ -137,6 +137,7 @@ void Store::processCommands(ifstream &commFile)
 	//read each line from the file
 	while (getline(commFile, line))
 	{
+
 		isAdded = false;
 		stringstream stream(line);
 
@@ -291,24 +292,36 @@ void Store::processCommands(ifstream &commFile)
 		// If command is inventory
 		else if (command == 'I')
 		{
+			cout << "______________________________" << endl;
+			cout << "Inventory: " << endl
+				 << endl;
 			// Output comedies, dramas, and classics
+			cout << "Comedies: " << endl;
 			for (unsigned i = 0; i < funnyList.size(); i++)
 			{
 				cout << funnyList[i]->getStock() << " " << *funnyList[i] << endl;
 			}
+			cout << endl;
+			cout << "Dramas: " << endl;
 			for (unsigned i = 0; i < dramaList.size(); i++)
 			{
 				cout << dramaList[i]->getStock() << " " << *dramaList[i] << endl;
 			}
+			cout << endl;
+			cout << "Classicals: " << endl;
 			for (unsigned i = 0; i < classicList.size(); i++)
 			{
 				cout << classicList[i]->getStock() << " " << *classicList[i] << endl;
 			}
+			cout << "______________________________" << endl;
+			cout << endl;
 		}
 
 		// If command is history
 		else if (command == 'H')
 		{
+			cout << endl;
+			cout << "______________________________" << endl;
 			stream >> ID;
 			Customer *temp = customerList.get(ID);
 			// If we get a nullptr, the customer doesn't exist
@@ -319,6 +332,8 @@ void Store::processCommands(ifstream &commFile)
 				continue;
 			}
 			temp->showTransactions();
+			cout << "______________________________" << endl;
+			cout << endl;
 		}
 
 		//Something other than B,R,H,I

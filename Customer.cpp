@@ -47,12 +47,12 @@ int Customer::getID() const
 // given attributes
 // -------------------------------------------------------------------
 void Customer::addTransaction(const char &ttype, const char &mtype,
-	const Video &vid, const Classical &clas)
+							  const Video &vid, const Classical &clas)
 {
 	Trans tx;
 	tx.txType = ttype;
 	tx.mediaType = mtype;
-	
+
 	if (clas.getGenre() == 'C')
 	{
 		tx.C.setMajActFN(clas.getMajActFN());
@@ -72,18 +72,20 @@ void Customer::addTransaction(const char &ttype, const char &mtype,
 // -------------------------------------------------------------------
 void Customer::showTransactions()
 {
+	cout << "Customer: " << customerID << " transaction history" << endl;
 	for (int i = (int)(transactions.size() - 1); i >= 0; i--)
 	{
 		if (transactions[i].C.getGenre() == 'C')
 		{
 			cout << transactions[i].txType << " " << customerID << " " << transactions[i].C.getReleaseMonth()
-				<< " " << transactions[i].C.getReleaseYear() << " " << transactions[i].C.getMajActFN() << " "
-				<< transactions[i].C .getMajActLN() << endl;
+				 << " " << transactions[i].C.getReleaseYear() << " " << transactions[i].C.getMajActFN() << " "
+				 << transactions[i].C.getMajActLN() << endl;
 		}
 		else
 			cout << transactions[i].txType << " " << customerID << " " << transactions[i].V.getTitle() << endl;
 	}
-	cout << "End Transaction History" << endl;
+	cout << "End Transaction History" << endl
+		 << endl;
 }
 
 // ----------------------------overloaded << ------------------------
@@ -96,7 +98,7 @@ operator<<(ostream &output, const Customer &C)
 	return output;
 }
 
-//uses a reverse iterator to loop through the transactions vector starting 
+//uses a reverse iterator to loop through the transactions vector starting
 //from the end.
 bool Customer::isBorrowed(Video *vid)
 {
@@ -112,7 +114,7 @@ bool Customer::isBorrowed(Video *vid)
 		}
 		//if movie has been borrowed and not returned, return true
 		else if (i->V.getTitle() == vid->getTitle() &&
-			i->txType == 'B')
+				 i->txType == 'B')
 		{
 			return true;
 		}
