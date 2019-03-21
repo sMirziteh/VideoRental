@@ -25,6 +25,9 @@ public:
 	int hash(int);
 	bool isFull();
 
+	//TEST
+	void print();
+
 private:
 	vector<Customer *> customerList;
 };
