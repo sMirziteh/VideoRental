@@ -1,3 +1,11 @@
+//---------------------------------Driver.cpp---------------------------------
+// Group: Jordan Lawson, Shelby Mirziteh, Kier Fisher
+// 03/14/2019
+// 03/20/2019
+// -------------------------------------------------------------------------
+// implements Video Rental inventory system
+// -------------------------------------------------------------------------
+
 #include "Video.h"
 #include "Customer.h"
 #include "Store.h"
