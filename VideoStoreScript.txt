@@ -1,0 +1,48 @@
+Script started on 2019-03-20 22:17:38-0700
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                        ]2;smirziteh@smirziteh-Galago-Pro: ~/Documents/CSS_343/Assn4]1;..CSS_343/Assn4[0m[27m[24m[J[01;32m➜  [36mAssn4[00m [01;34mgit:([31mJordan[34m) [33m✗[00m [K[?1h=[?2004hg[90m++ *.cpp[39m[8Dg[39m+[39m+[39m [39m*[39m.[39mc[39mp[39mp[?1l>[?2004l
+]2;g++ *.cpp]1;g++[1m[7m%[27m[1m[0m                                                                                                                                                                                                        ]2;smirziteh@smirziteh-Galago-Pro: ~/Documents/CSS_343/Assn4]1;..CSS_343/Assn4[0m[27m[24m[J[01;32m➜  [36mAssn4[00m [01;34mgit:([31mJordan[34m) [33m✗[00m [K[?1h=[?2004h.[90m/a.out[39m.[39m/[39ma[39m.[39mo[39mu[39mt[?1l>[?2004l
+]2;./a.out]1;./a.outWelcome to Blockbuster inventory system!
+
+Opening data4movies.txt
+Invalid Genre
+Opening data4customers.txt
+
+Opening data4commands.txt
+
+Movie does not exist!
+Invalid Command
+
+______________________________
+Customer: 1234 transaction history
+B 1234 Schindler's List
+R 1234 9 1938 Katherine Hepburn
+B 1234 9 1938 Katherine Hepburn
+End Transaction History
+
+______________________________
+
+Invalid Command
+Invalid Genre
+Customer does not exist!
+Movie does not exist!
+______________________________
+Inventory: 
+
+Comedies: 
+10 You've Got Mail Nora Ephron 1998 
+3 Gore Verbinski Pirates of the Caribbean 2003 
+
+Dramas: 
+1 Schindler's List Steven Spielberg 1993 
+4 King of Hearts Phillippe De Broca 1967 
+
+Classicals: 
+85 Holiday George Cukor Katherine Hepburn 9 1938 
+______________________________
+
+Movie wasn't borrowed
+No available copies
+No available copies
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                        ]2;smirziteh@smirziteh-Galago-Pro: ~/Documents/CSS_343/Assn4]1;..CSS_343/Assn4[0m[27m[24m[J[01;32m➜  [36mAssn4[00m [01;34mgit:([31mJordan[34m) [33m✗[00m [K[?1h=[?2004h[?2004l
+
+Script done on 2019-03-20 22:17:49-0700

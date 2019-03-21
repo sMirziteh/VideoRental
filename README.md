@@ -1,5 +1,12 @@
 # VideoRental
 
+Group: Jordan Lawson, Shelby Mirziteh, Kier Fisher
+
+Compile: g++ *.cpp
+Run: ./a.out
+
+*See VideoStoreScript.txt for printout*
+
 Driver reads data4movies and sends it to Store to initialize inventory, then data4customers, then data4commands.
 Store processes all txt files and reacts accordingly. Prints out error messages for incorrect genres, commands, etc.
 
