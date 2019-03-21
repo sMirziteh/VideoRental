@@ -210,10 +210,14 @@ void Store::processCommands(ifstream& commFile)
 				// If video is found, update the stock of the video
 				if (containsVideo(temp)) {
 					if (command == 'B') {
-						updateStock(temp->getTitle(), -1);
+						if (!updateStock(temp->getTitle(), -1))
+							cout << "No available copies" << endl;
 					}
 					else if (command == 'R') {
-						updateStock(temp->getTitle(), 1);
+						if (!Store::isBorrowed(ID, temp))
+							cout << "Movie wasn't borrowed" << endl;
+						else
+							updateStock(temp->getTitle(), 1);
 					}
 				}
 				else {
@@ -263,8 +267,6 @@ void Store::processCommands(ifstream& commFile)
 			cout << "Invalid Command" << endl;
 			continue;	//continue to the next line of input
 		}
-
-
 	}
 }
 
@@ -275,6 +277,8 @@ bool Store::updateStock(string curTitle, int curStock)
 		Video *temp = classicList[i];
 		if (temp->getTitle() == curTitle)
 		{
+			if (temp->getStock() == 0)
+				return false;
 			int stock = temp->getStock() + curStock;
 			temp->setStock(stock);
 			return true;
@@ -365,6 +369,12 @@ void Store::sort() {
 		if (swapped == false)
 			break;
 	}
+}
+
+bool Store::isBorrowed(int ID, Video *vid)
+{
+	Customer *cust = customerList.get(ID);
+	return cust->Customer::isBorrowed(vid);
 }
 
 //TEST

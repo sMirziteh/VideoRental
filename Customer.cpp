@@ -76,3 +76,26 @@ operator<<(ostream &output, const Customer &C)
     output << C.customerID << " " << C.lastName << " " << C.firstName;
     return output;
 }
+
+//uses a reverse iterator to loop through the transactions vector starting 
+//from the end.
+bool Customer::isBorrowed(Video *vid)
+{
+	vector<Trans>::reverse_iterator i = transactions.rbegin();
+	for (; i != transactions.rend(); ++i)
+	{
+		//if movie has been borrowed and returned in the past return false
+		if (i->V.getTitle() == vid->getTitle() &&
+			i->txType == 'R')
+		{
+			return false;
+		}
+		//if movie has been borrowed return true
+		else if (i->V.getTitle() == vid->getTitle() && 
+				 i->txType == 'B')
+		{
+			return true;
+		}
+	}
+	return false;
+}

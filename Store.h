@@ -31,6 +31,7 @@ private:
 
 	bool containsVideo(Video*);
 	bool updateStock(string, int);
+	bool isBorrowed(int, Video*);
 };
 
 #endif

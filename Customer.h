@@ -44,6 +44,8 @@ public:
   void showTransactions();
   //retrieves customer ID
   int getID() const;
+  //checks to see if the video has been borrowed
+  bool isBorrowed(Video*);
 
 protected:
   int customerID;             //4-digit customer ID
