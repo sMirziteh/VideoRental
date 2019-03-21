@@ -30,6 +30,7 @@ private:
 		char txType;    //transaction type (B || R)
 		char mediaType; //media type (D)
 		Video V;        //video being borrowed or returned
+		Classical C;
 	};
 
 public:
@@ -39,7 +40,8 @@ public:
 	//destructor
 	~Customer();
 	//adds transaction to Transaction data structure
-	void addTransaction(const char &txType, const char &mediaType, const Video &);
+	void addTransaction(const char &txType, const char &mediaType, 
+		const Video &, const Classical &);
 	//displays all customer transactions
 	void showTransactions();
 	//retrieves customer ID

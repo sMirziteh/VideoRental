@@ -133,6 +133,7 @@ void Store::processCommands(ifstream& commFile)
 	//read each line from the file
 	while (getline(commFile, line))
 	{
+		isAdded = false;
 		stringstream stream(line);
 
 		// Get command character
@@ -186,7 +187,7 @@ void Store::processCommands(ifstream& commFile)
 							else
 							{
 								Customer *cust = customerList.get(ID);
-								cust->addTransaction(command, videoType, *cTemp);
+								cust->addTransaction(command, videoType, *temp, *cTemp);
 							}
 						}
 						else if (command == 'R') {
@@ -196,7 +197,7 @@ void Store::processCommands(ifstream& commFile)
 							{
 								updateStock(temp->getTitle(), 1);
 								Customer *cust = customerList.get(ID);
-								cust->addTransaction(command, videoType, *cTemp);
+								cust->addTransaction(command, videoType, *temp, *cTemp);
 							}
 						}
 					}
@@ -245,16 +246,21 @@ void Store::processCommands(ifstream& commFile)
 						else
 						{
 							Customer *cust = customerList.get(ID);
-							cust->addTransaction(command, videoType, *temp);
+							Classical *garbage = new Classical;
+							cust->addTransaction(command, videoType, *temp, *garbage);
+							delete garbage;
 						}
 					}
-					else if (command == 'R') {
+					else if (command == 'R') 
+					{
 						if (!Store::isBorrowed(ID, temp))
 							cout << "Movie wasn't borrowed" << endl;
 						else
 							updateStock(temp->getTitle(), 1);
 							Customer *cust = customerList.get(ID);
-							cust->addTransaction(command, videoType, *temp);
+							Classical *garbage = new Classical;
+							cust->addTransaction(command, videoType, *temp, *garbage);
+							delete garbage;
 					}
 				}
 				else if (!isAdded) {

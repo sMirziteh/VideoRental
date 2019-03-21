@@ -47,12 +47,23 @@ int Customer::getID() const
 // given attributes
 // -------------------------------------------------------------------
 void Customer::addTransaction(const char &ttype, const char &mtype,
-	const Video &vid)
+	const Video &vid, const Classical &clas)
 {
 	Trans tx;
 	tx.txType = ttype;
 	tx.mediaType = mtype;
-	tx.V = vid;
+	
+	if (clas.getGenre() == 'C')
+	{
+		tx.C.setMajActFN(clas.getMajActFN());
+		tx.C.setMajActLN(clas.getMajActLN());
+		tx.C.setReleaseMonth(clas.getReleaseMonth());
+		tx.C.setReleaseYear(clas.getReleaseYear());
+		tx.C.setGenre('C');
+	}
+	else
+		tx.V = vid;
+
 	transactions.push_back(tx);
 }
 
@@ -61,10 +72,18 @@ void Customer::addTransaction(const char &ttype, const char &mtype,
 // -------------------------------------------------------------------
 void Customer::showTransactions()
 {
-	for (int i = transactions.size() - 1; i >= 0; i--)
+	for (int i = (int)(transactions.size() - 1); i >= 0; i--)
 	{
-		cout << transactions[i].txType << " " << customerID << " " << transactions[i].V.getTitle() << endl;
+		if (transactions[i].C.getGenre() == 'C')
+		{
+			cout << transactions[i].txType << " " << customerID << " " << transactions[i].C.getReleaseMonth()
+				<< " " << transactions[i].C.getReleaseYear() << " " << transactions[i].C.getMajActFN() << " "
+				<< transactions[i].C .getMajActLN() << endl;
+		}
+		else
+			cout << transactions[i].txType << " " << customerID << " " << transactions[i].V.getTitle() << endl;
 	}
+	cout << "End Transaction History" << endl;
 }
 
 // ----------------------------overloaded << ------------------------
